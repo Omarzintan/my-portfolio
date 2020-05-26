@@ -7,27 +7,43 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>Zintan's Portfolio</h1>
-      <h2> My Background </h2>
-      <p>I am originally from Ghana and I am a rising Junior at Pomona College. I am a computer science major 
-          and my interests are playing basketball, coding, listening to music and reading. I am very happy to be
-          interning at Google this year. Even though it had to be remote, I still look forward to learning a lot.
-      </p>
-      <h2> What makes me me </h2>
-      <p> Write content here </p>
-    <div id="projects">
-        <p> List of projects here </p>
-        <ul></ul>
-    </div>
-    <div id="image-display"> 
-        <p> Display random image display here </p> 
-        <img src="/images/ghana.png"> <br></br> My National Flag </img>
-        <p>Click here to get a random message:</p>
-        <button onclick="addRandomGreeting()">Hello</button>
-        <div id="greeting-container"></div>
-    </div>
-    <div id="other"> Other links here [more images, blog, linkedIn and GitHub accounts] </div>
+    <div id="content" class="container">
+        <div class="row">
+            <h1>Zintan's Portfolio</h1>
+            <div class="col-md-6">
+                <h2> My Background </h2>
+                <p> Born and raised in Ghana, West Africa practically my whole life and I moved to the U.S. for 
+                    college two years ago. I come from a small nuclear family of four. My older brother, Jemaa,
+                    is four years older than me and lives in Connecticut. I am a rising Junior at Pomona College
+                    and I believe going to college in California may be one of the best decisions I ever made (I 
+                    love the weather!) I am excited to be working at Google for the first time. Even though this 
+                    internship had to be remote, I still look forward to learning a lot.
+                </p>
+                <h2> My Hobbies </h2>
+                <ul>  
+                    <li> Playing Basketball and soccer </li>
+                    <li> Playing the guitar and learning other musical intruments </li>
+                    <li> Coding </li>
+                    <li> Long boarding </li>
+                </ul>
+            </div>
+            <div id="projects" class="col-md-6">
+                <h2> My Projects </h2>
+                <ul list-style-type="circle">
+                    <li>Gitlab bot for assignment grading.</li>
+                    <li>Built a 4-node Raspbery Pi cluster to simulate HPC.</li>
+                    <li>Developed web app for cognitive science experiment on visual illusions.</li>
+                </ul>
+            </div>
+        </div>
+        <div id="image-display"> 
+            <p> Display random image display here </p> 
+            <img src="/images/ghana.png"> <br></br> My National Flag </img>
+            <p>Click here to get a random message:</p>
+            <button onclick="addRandomGreeting()">Hello</button>
+            <div id="greeting-container"></div>
+        </div>
+        <div id="other"> Other links here [more images, blog, linkedIn and GitHub accounts] </div>
     </div>
   </body>
 </html>
