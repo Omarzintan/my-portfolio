@@ -4,6 +4,24 @@
   width: 650px;
 }
 
-#greeting-container {
+#fun-fact-container {
   margin-top: 20px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: darkgreen;
+}
+
+.thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-width: 3px;
+    border-style: solid;
+    border-color: darkblue;
+}
+
+.thumbnails img {
+    margin: 10px;
+    max-width: 300px;
+    height: auto;
 }
