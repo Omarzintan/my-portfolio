@@ -26,3 +26,17 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+// Adds a random image to the page
+function addRandomImage(){
+    const imgIndex = Math.floor(Math.random() * 7);
+    const imgUrl = "/images/zintan-" + imgIndex + ".jpg";
+    
+    const imgElement = document.createElement('img');
+    imgElement.src = imgUrl;
+
+    const imageContainer = document.getElementById('image-container');
+    imageContainer.innerHTML = ''; //remove previous image
+    imageContainer.appendChild(imgElement);
+
+}
