@@ -17,8 +17,8 @@
  */
 function addRandomFunFact() {
   const fun_facts =
-      ['Born in June', 'Exposed to coding at age 13', 'Enjoy Poetry', 'Aspiring fluent French speaker', 'Speaks two and a half languages :)', 
-      'Body was not designed to float in water', 'Adhered to the same haircut style since third grade', 'Once wanted to be a lawyer', 
+      ['Born in June', 'Exposed to coding at age 13', 'Enjoys Poetry', 'Aspiring to be a fluent French speaker', 'Speaks two and a half languages :)', 
+      'Body was not designed to float in water', 'Have had the same haircut style since third grade', 'Once wanted to be a lawyer', 
       'Probably the only person named "Zintan" in Google! maybe ;)'];
 
   // Pick a random fun_fact.
