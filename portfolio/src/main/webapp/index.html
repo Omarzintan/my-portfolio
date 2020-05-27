@@ -9,6 +9,7 @@
   <body>
       <div id="content">
           <h1>Zintan's Portfolio</h1>
+          <div class="thumbnails"><a href="/images/zintan-1.jpg"><img src="/images/zintan-1.jpg"></img></a></div>
           <h2> Background </h2>
           <p> Born and raised in Ghana, West Africa practically my whole life and I moved to the U.S. for 
               college two years ago. I come from a small nuclear family of four. My older brother, Jemaa,
@@ -16,7 +17,7 @@
               and I believe going to college in California may be one of the best decisions I ever made (I 
               love the weather!) I am excited to be working at Google for the first time. Even though this 
               internship had to be remote, I still look forward to learning a lot.
-              </p>
+            </p>
               <h2> Hobbies </h2>
               <ul>  
                   <li> Playing Basketball and soccer </li>
@@ -29,12 +30,15 @@
                     <li>Gitlab bot for assignment grading.</li>
                     <li>Built a 4-node Raspbery Pi cluster to simulate HPC.</li>
                     <li>Developed web app for cognitive science experiment on visual illusions.</li>
+                </ul>
             <p> Click here to see a random image of me:</p>
             <button onclick="addRandomImage()"> View image</button>
-            <div id="image-container" class="thumbnails"></div>
-            <p>Click here to get a random message:</p>
+            <div id="image-container"></div>
+            
+            <p>Click here to get a random fun fact about me:</p>
             <button onclick="addRandomFunFact()">Know more about me!</button>
             <div id="fun-fact-container"></div>
+            
             <div id="links"> 
                 <p> Click <a href="images.html"> here </a> to see my image gallery </p>
                 <p> Click <a href="blog.html"> here </a> to view my blog </p>
