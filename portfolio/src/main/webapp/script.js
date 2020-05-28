@@ -17,9 +17,9 @@
  */
 function addRandomFunFact() {
   const fun_facts =
-      ['Born in June', 'Exposed to coding at age 13', 'Enjoys Poetry', 'Aspiring to be a fluent French speaker', 'Speaks two and a half languages :)', 
-      'Body was not designed to float in water', 'Have had the same haircut style since third grade', 'Once wanted to be a lawyer', 
-      'Probably the only person named "Zintan" in Google! maybe ;)'];
+      ['"I am a June born!"', '"I was exposed to coding at age 13!"', '"I enjoy Poetry!"', '"I aspire to be a fluent French speaker!"', '"I speak two and a half languages :)"', 
+      '"I cannot float in water!"', '"I have had the same haircut since the third grade!"', '"I once wanted to be a lawyer!"', 
+      '"I am the only one of my sibligns to have a middle name!"', '"I enjoy listening to hip-hop, gospel and jazz music!"', '"I am left-handed!"', '"I would like to tour Venice in the future!"'];
 
   // Pick a random fun_fact.
   const fun_fact = fun_facts[Math.floor(Math.random() * fun_facts.length)];
@@ -29,16 +29,4 @@ function addRandomFunFact() {
   fun_factContainer.innerText = fun_fact;
 }
 
-// Adds a random image to the page
-function addRandomImage(){
-    const imgIndex = Math.floor(Math.random() * 7);
-    const imgUrl = "/images/zintan-" + imgIndex + ".jpg";
-    
-    const imgElement = document.createElement('img');
-    imgElement.src = imgUrl;
 
-    const imageContainer = document.getElementById('image-container');
-    imageContainer.innerHTML = ''; //remove previous image
-    imageContainer.appendChild(imgElement);
-
-}
