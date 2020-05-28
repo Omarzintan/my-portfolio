@@ -7,7 +7,8 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 950px;
+  padding-left: 10px;
+  width: 400px;
   background-color: wheat
 }
 
@@ -29,6 +30,11 @@ h2 {
     font-style: italic;
 }
 
+p1 {
+    margin-left:.2cm;
+    font-style: italic;
+    font-size: .75cm;
+}
 p {
     margin-left:10px;
 }
@@ -55,7 +61,7 @@ body {
 }
 
 .cutout img { 
-    max-width: 900px;
+    max-width: 1400px;
     height: auto;
 }
 .thumbnails img {
