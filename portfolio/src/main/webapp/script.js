@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Global Variables
+var currentIndex=-1;
 /**
  * Adds a random greeting to the page.
  */
@@ -31,8 +33,12 @@ function addRandomFunFact() {
        ];
 
   // Pick a random fun_fact.
-  const fun_fact = fun_facts[Math.floor(Math.random() * fun_facts.length)];
-
+  var index = Math.floor(Math.random() * fun_facts.length);
+  while (index == currentIndex) {
+      index = Math.floor(Math.random() * fun_facts.length);
+  }
+  const fun_fact = fun_facts[index];
+  currentIndex = index;
   // Add it to the page.
   const fun_factContainer = document.getElementById('fun-fact-container');
   fun_factContainer.innerText = fun_fact;
