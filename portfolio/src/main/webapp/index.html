@@ -2,48 +2,39 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Zintan's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content" class="container">
-        <div class="row">
-            <h1>Zintan's Portfolio</h1>
-            <div class="col-md-6">
-                <h2> My Background </h2>
-                <p> Born and raised in Ghana, West Africa practically my whole life and I moved to the U.S. for 
-                    college two years ago. I come from a small nuclear family of four. My older brother, Jemaa,
-                    is four years older than me and lives in Connecticut. I am a rising Junior at Pomona College
-                    and I believe going to college in California may be one of the best decisions I ever made (I 
-                    love the weather!) I am excited to be working at Google for the first time. Even though this 
-                    internship had to be remote, I still look forward to learning a lot.
-                </p>
-                <h2> My Hobbies </h2>
+    <div id="parent-div">
+      <div id="left-panel"><div class="cutout"><img src="/images/zintan-cutout.png"></img></div>
+      </div>
+      <div id="right-panel">
+        <div id="content">
+          <h1>About Me</h1>
+            <p1> I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
+                and my major is Computer Science with a probable minor in Mathematics and French. I aspire to be an 
+                influencial Software Developer in the near future. When I am not focused on academic work I enjoy: 
                 <ul>  
-                    <li> Playing Basketball and soccer </li>
-                    <li> Playing the guitar and learning other musical intruments </li>
-                    <li> Coding </li>
-                    <li> Long boarding </li>
+                  <li> Playing Basketball and soccer </li>
+                  <li> Playing the guitar and learning other musical intruments </li>
+                  <li> Coding </li>
+                  <li> Long boarding </li>
                 </ul>
-            </div>
-            <div id="projects" class="col-md-6">
-                <h2> My Projects </h2>
-                <ul list-style-type="circle">
-                    <li>Gitlab bot for assignment grading.</li>
-                    <li>Built a 4-node Raspbery Pi cluster to simulate HPC.</li>
-                    <li>Developed web app for cognitive science experiment on visual illusions.</li>
-                </ul>
-            </div>
+            </p1>
+            
+        
+          <button class="button" onclick="addRandomFunFact()">Random Fun Fact about me</button>
+          <p1><div id="fun-fact-container"></div></p1>
+          <p1><a class="internal-links" href="projects.html">My projects</a></p1><br>
+          <p1><a class="internal-links" href="images.html">My image gallery</a></p1>
+          <div id="links"> 
+            <p class="contact-info"> Checkout my <a class="external-links" href="https://github.com/Omarzintan"> GitHub Profile </a></p>
+            <p class="contact-info"> Checkout my <a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> LinkedIn Profile </a></p>
+          </div>
         </div>
-        <div id="image-display"> 
-            <p> Display random image display here </p> 
-            <img src="/images/ghana.png"> <br></br> My National Flag </img>
-            <p>Click here to get a random message:</p>
-            <button onclick="addRandomGreeting()">Hello</button>
-            <div id="greeting-container"></div>
-        </div>
-        <div id="other"> Other links here [more images, blog, linkedIn and GitHub accounts] </div>
+      </div>
     </div>
   </body>
 </html>
