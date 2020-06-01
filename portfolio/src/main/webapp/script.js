@@ -51,19 +51,33 @@ function helloZintan() {
     fetch('/data').then(response => response.text()).then(helloMessage => document.getElementById('hello-zintan').innerText=helloMessage);
 }
 
+/* fetches comments from server and sends them to index.html */
 function commentCollector() {
     fetch('/data')
     .then(response => response.json())
     .then((commentArrayList) => {
-    //   const commentListElement = document.getElementById('comment-list');
-    //   commentListElement.innerHTML = '';
-    //   commentListElement.appendChild(
-    //       createListElement()
-    //   )
-      console.log(commentArrayList[0]);
-      console.log(commentArrayList[1]);
-      console.log(commentArrayList[2]);
+      const commentListElement = document.getElementById('comment-list');
+      commentListElement.innerHTML = '';
+      commentListElement.appendChild(
+          createListElement(commentArrayList[0])
+      );
+      commentListElement.appendChild(
+          createListElement(commentArrayList[1])
+      )
+      commentListElement.appendChild(
+          createListElement(commentArrayList[2])
+      )
+    //   console.log(commentArrayList[0]);
+    //   console.log(commentArrayList[1]);
+    //   console.log(commentArrayList[2]);
     });
+}
+
+/* Creates <li> component containing text */
+function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
 }
 
 
