@@ -44,4 +44,11 @@ function addRandomFunFact() {
   fun_factContainer.innerText = fun_fact;
 }
 
+/**
+* Say "Hello Zintan!" on my homepage on button click
+ */
+function helloZintan() {
+    fetch('/data').then(response => response.text()).then(helloMessage => document.getElementById('hello-zintan').innerText=helloMessage);
+}
+
 
