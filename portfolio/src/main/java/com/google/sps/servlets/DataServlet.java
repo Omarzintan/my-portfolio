@@ -20,6 +20,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// hard-coded messages for testing
+ArrayList<String> messages = new ArrayList<String>;
+messages.append("comment1");
+messages.append("comment2");
+messages.append("comment3");
+
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
