@@ -51,4 +51,19 @@ function helloZintan() {
     fetch('/data').then(response => response.text()).then(helloMessage => document.getElementById('hello-zintan').innerText=helloMessage);
 }
 
+function commentCollector() {
+    fetch('/data')
+    .then(response => response.json())
+    .then((commentArrayList) => {
+    //   const commentListElement = document.getElementById('comment-list');
+    //   commentListElement.innerHTML = '';
+    //   commentListElement.appendChild(
+    //       createListElement()
+    //   )
+      console.log(commentArrayList[0]);
+      console.log(commentArrayList[1]);
+      console.log(commentArrayList[2]);
+    });
+}
+
 
