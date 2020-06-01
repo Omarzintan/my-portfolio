@@ -44,12 +44,6 @@ function addRandomFunFact() {
   fun_factContainer.innerText = fun_fact;
 }
 
-/**
-* Say "Hello Zintan!" on my homepage on button click
- */
-function helloZintan() {
-    fetch('/data').then(response => response.text()).then(helloMessage => document.getElementById('hello-zintan').innerText=helloMessage);
-}
 
 /* fetches comments from server and sends them to index.html */
 function commentCollector() {
@@ -67,9 +61,6 @@ function commentCollector() {
       commentListElement.appendChild(
           createListElement(commentArrayList[2])
       )
-    //   console.log(commentArrayList[0]);
-    //   console.log(commentArrayList[1]);
-    //   console.log(commentArrayList[2]);
     });
 }
 
