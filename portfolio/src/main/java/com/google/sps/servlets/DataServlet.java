@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 
@@ -29,7 +30,7 @@ import com.google.gson.Gson;
 public class DataServlet extends HttpServlet {
     
   // hard-coded messages for testing
-  public ArrayList<String> comments = new ArrayList<String>();
+  public List<String> comments = new ArrayList<String>();
 
   public DataServlet() {
     comments.add("comment1");
@@ -46,7 +47,7 @@ public class DataServlet extends HttpServlet {
   }
 
   // Converts messages to JSON format using GSON
-  private String convertToJsonWithGson(ArrayList<String> messages){
+  private String convertToJsonWithGson(List<String> messages){
       Gson gson = new Gson();
       String jsonMessages = gson.toJson(messages);
       return jsonMessages;
