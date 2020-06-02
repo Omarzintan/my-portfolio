@@ -53,7 +53,7 @@ function commentCollector() {
       const commentListElement = document.getElementById('comment-list');
       commentListElement.innerHTML = '';
       var commentArrayLength = commentArrayList.length;
-      for (i = 0; i<commentArrayList; i++ ){
+      for (i = 0; i < commentArrayLength; i++ ){
         commentListElement.appendChild(
           createListElement(commentArrayList[i])
           );
