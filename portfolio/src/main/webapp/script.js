@@ -45,3 +45,27 @@ function addRandomFunFact() {
 }
 
 
+/* fetches comments from server and sends them to index.html */
+function commentCollector() {
+    fetch('/data')
+    .then(response => response.json())
+    .then((commentArrayList) => {
+      const commentListElement = document.getElementById('comment-list');
+      commentListElement.innerHTML = '';
+      var commentArrayLength = commentArrayList.length;
+      for (i = 0; i<commentArrayList; i++ ){
+        commentListElement.appendChild(
+          createListElement(commentArrayList[i])
+          );
+      }
+    });
+}
+
+/* Creates <li> component containing text */
+function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
+}
+
+
