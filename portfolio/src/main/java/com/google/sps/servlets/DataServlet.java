@@ -32,11 +32,7 @@ public class DataServlet extends HttpServlet {
   // hard-coded messages for testing
   public List<String> comments = new ArrayList<String>();
 
-  public DataServlet() {
-    comments.add("comment1");
-    comments.add("comment2");
-    comments.add("comment3");
-  }
+  public DataServlet() {}
   
  
 
@@ -46,10 +42,27 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(commentsString);
   }
 
+  /**POST method for getting user comments from homepage */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String userComment = getUserComment(request);
+    comments.add(userComment); 
+    response.sendRedirect("/index.html");
+  }
+
   // Converts messages to JSON format using GSON
   private String convertToJsonWithGson(List<String> messages){
-      Gson gson = new Gson();
-      String jsonMessages = gson.toJson(messages);
-      return jsonMessages;
+    Gson gson = new Gson();
+    String jsonMessages = gson.toJson(messages);
+    return jsonMessages;
+  }
+
+  private String getUserComment(HttpServletRequest request){
+    String comment = request.getParameter("user-comment");
+    if (comment == "") {
+      System.err.println("Comment box empty! Please type in your comment");
+      return "error";
+    }
+    return comment;
   }
 }
