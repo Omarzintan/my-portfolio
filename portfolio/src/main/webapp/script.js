@@ -52,15 +52,12 @@ function commentCollector() {
     .then((commentArrayList) => {
       const commentListElement = document.getElementById('comment-list');
       commentListElement.innerHTML = '';
-      commentListElement.appendChild(
-          createListElement(commentArrayList[0])
-      );
-      commentListElement.appendChild(
-          createListElement(commentArrayList[1])
-      )
-      commentListElement.appendChild(
-          createListElement(commentArrayList[2])
-      )
+      var commentArrayLength = commentArrayList.length;
+      for (i = 0; i<commentArrayList; i++ ){
+        commentListElement.appendChild(
+          createListElement(commentArrayList[i])
+          );
+      }
     });
 }
 
