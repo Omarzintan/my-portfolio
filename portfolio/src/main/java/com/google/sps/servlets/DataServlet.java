@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -38,14 +39,15 @@ public class DataServlet extends HttpServlet {
   // Responsible for listing comments  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // int commentLimit = getCommentNumLimit(request);
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
+    //query.setParameter("number-comments", commentLimit);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
 
-    for ( Entity entity : results.asIterable()) {
+    for ( Entity entity : results.asIterable()){ //(FetchOptions.Builder.withLimit(commentLimit))) {
       long id = entity.getKey().getId();
       String text = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
@@ -58,7 +60,6 @@ public class DataServlet extends HttpServlet {
     String jsonComments = gson.toJson(comments);
     response.setContentType("application/json");
     response.getWriter().println(jsonComments);
-    
   }
 
   /**POST method for getting user comments from homepage */
@@ -76,6 +77,23 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
+//   //retrieve limit to number of comments from index.html
+//   private int getCommentNumLimit(HttpServletRequest request) {
+//     String limitString = request.getParameter("number-comments");
+//     int limitInt;
+//     try{
+//         limitInt = Integer.parseInt(limitString);
+//     }catch (NumberFormatException e) {
+//         System.err.println("Could not convert to int: " + limitString);
+//         return -1;
+//     }
+//     if (limitInt < 1){
+//         System.err.println("Limit is out of range: "+limitInt );
+//         return -1;
+//     }
+//     return limitInt;
+//   }
+
   // Converts messages to JSON format using GSON
   private String convertToJsonWithGson(List<String> messages){
     Gson gson = new Gson();
@@ -85,7 +103,7 @@ public class DataServlet extends HttpServlet {
 
   private String getUserComment(HttpServletRequest request){
     String comment = request.getParameter("user-comment");
-    if (comment == "") {
+    if (comment.isEmpty()) {
       System.err.println("Comment box empty! Please type in your comment");
       return "error";
     }
