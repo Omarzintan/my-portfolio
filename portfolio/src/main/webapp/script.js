@@ -14,6 +14,7 @@
 
 // Global Variables
 var currentIndex=-1;
+var commentNumLimit;
 /**
  * Adds a random greeting to the page.
  */
@@ -52,7 +53,7 @@ function commentCollector() {
     .then((commentList) => {
       const commentListElement = document.getElementById('comment-list');
       commentListElement.innerHTML = '';
-      var commentListLength = commentList.length;
+      var commentListLength = document.getElementById('number-comments').value;
       for (i = 0; i < commentListLength; i++ ){
         commentListElement.appendChild(
           createListElement(commentList[i].text)
