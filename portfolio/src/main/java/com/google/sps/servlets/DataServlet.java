@@ -36,10 +36,13 @@ import com.google.gson.Gson;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private static final String entityKey = "Comment";
+  private static final String entityTimeStamp = "timestamp";
+  private static final String entityText = "text";
   // Responsible for listing comments  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query(entityKey).addSort(entityTimeStamp, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
@@ -47,8 +50,8 @@ public class DataServlet extends HttpServlet {
 
     for ( Entity entity : results.asIterable()){
       long id = entity.getKey().getId();
-      String text = (String) entity.getProperty("text");
-      long timestamp = (long) entity.getProperty("timestamp");
+      String text = (String) entity.getProperty(entityText);
+      long timestamp = (long) entity.getProperty(entityTimeStamp);
 
       Comment comment = new Comment(id, text, timestamp);
       comments.add(comment);
@@ -66,9 +69,9 @@ public class DataServlet extends HttpServlet {
     String userComment = getUserComment(request);
     long timestamp = System.currentTimeMillis();
 
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("text", userComment);
-    commentEntity.setProperty("timestamp", timestamp);
+    Entity commentEntity = new Entity(entityKey);
+    commentEntity.setProperty(entityText, userComment);
+    commentEntity.setProperty(entityTimeStamp, timestamp);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
     
@@ -83,7 +86,8 @@ public class DataServlet extends HttpServlet {
   }
 
   private String getUserComment(HttpServletRequest request){
-    String comment = request.getParameter("user-comment");
+    String commentId = "user-comment";
+    String comment = request.getParameter(commentId);
     if (comment.isEmpty()) {
       System.err.println("Comment box empty! Please type in your comment");
       return "error";
