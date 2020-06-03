@@ -14,6 +14,14 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.sps.data.Comment;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,28 +36,62 @@ import com.google.gson.Gson;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    
-  // hard-coded messages for testing
-  public List<String> comments = new ArrayList<String>();
-
-  public DataServlet() {
-    comments.add("comment1");
-    comments.add("comment2");
-    comments.add("comment3");
-  }
-  
- 
-
+  private static final String entityKey = "Comment";
+  private static final String entityTimeStamp = "timestamp";
+  private static final String entityText = "text";
+  // Responsible for listing comments  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String commentsString = convertToJsonWithGson(comments);
-    response.getWriter().println(commentsString);
+    Query query = new Query(entityKey).addSort(entityTimeStamp, SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    List<Comment> comments = new ArrayList<>();
+
+    for ( Entity entity : results.asIterable()){
+      long id = entity.getKey().getId();
+      String text = (String) entity.getProperty(entityText);
+      long timestamp = (long) entity.getProperty(entityTimeStamp);
+
+      Comment comment = new Comment(id, text, timestamp);
+      comments.add(comment);
+    }
+
+    Gson gson = new Gson();
+    String jsonComments = gson.toJson(comments);
+    response.setContentType("application/json");
+    response.getWriter().println(jsonComments);
+  }
+
+  /** POST method for getting user comments from homepage */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String userComment = getUserComment(request);
+    long timestamp = System.currentTimeMillis();
+
+    Entity commentEntity = new Entity(entityKey);
+    commentEntity.setProperty(entityText, userComment);
+    commentEntity.setProperty(entityTimeStamp, timestamp);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+    
+    response.sendRedirect("/index.html");
   }
 
   // Converts messages to JSON format using GSON
   private String convertToJsonWithGson(List<String> messages){
-      Gson gson = new Gson();
-      String jsonMessages = gson.toJson(messages);
-      return jsonMessages;
+    Gson gson = new Gson();
+    String jsonMessages = gson.toJson(messages);
+    return jsonMessages;
+  }
+
+  private String getUserComment(HttpServletRequest request){
+    String commentId = "user-comment";
+    String comment = request.getParameter(commentId);
+    if (comment.isEmpty()) {
+      System.err.println("Comment box empty! Please type in your comment");
+      return "error";
+    }
+    return comment;
   }
 }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="commentCollector()">
     <div id="parent-div">
       <div id="left-panel"><div class="cutout"><img src="/images/zintan-cutout.png"></img></div>
       </div>
@@ -24,18 +24,22 @@
                 </ul>
             </p1>
             
-        
           <button class="button" onclick="addRandomFunFact()">Random Fun Fact about me</button>
           <p1><div id="fun-fact-container"></div></p1>
-          <form action="" method="POST">
+
+          <form action="/data" method="POST">
             <p> Comments </p>
             <input type="text" name="user-comment" value="Comment Here">
             <br></br>
-            <input type="submit" />
+            <input type="submit"/>
           </form>
-          
-          <button class="button" onclick="commentCollector()"> Comments </button>
+          <form action="/data" method="GET">
+            <label for="number-comments"> Choose maximum number of comments displayed </label>
+            <input type="number" id="number-comments" name="number-comments" min="1" max="30" value="5" onchange="commentCollector()">
+          </form>
+
           <p1><div id="comment-list"></div></p1>
+
           <p1><a class="internal-links" href="projects.html">My projects</a></p1><br>
           <p1><a class="internal-links" href="images.html">My image gallery</a></p1>
           <div id="links"> 

@@ -14,6 +14,7 @@
 
 // Global Variables
 var currentIndex=-1;
+var commentNumLimit;
 /**
  * Adds a random greeting to the page.
  */
@@ -49,13 +50,13 @@ function addRandomFunFact() {
 function commentCollector() {
     fetch('/data')
     .then(response => response.json())
-    .then((commentArrayList) => {
+    .then((commentList) => {
       const commentListElement = document.getElementById('comment-list');
       commentListElement.innerHTML = '';
-      var commentArrayLength = commentArrayList.length;
-      for (i = 0; i<commentArrayList; i++ ){
+      var commentListLength = document.getElementById('number-comments').value;
+      for (i = 0; i < commentListLength; i++ ){
         commentListElement.appendChild(
-          createListElement(commentArrayList[i])
+          createListElement(commentList[i].text)
           );
       }
     });
