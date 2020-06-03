@@ -32,13 +32,6 @@ import com.google.gson.Gson;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     
-  // hard-coded messages for testing
-  public List<String> comments = new ArrayList<String>();
-
-  public DataServlet() {}
-  
- 
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String commentsString = convertToJsonWithGson(comments);
@@ -53,7 +46,6 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("text", userComment);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
-    //comments.add(userComment); 
     
     response.sendRedirect("/index.html");
   }
