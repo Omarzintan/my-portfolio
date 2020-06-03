@@ -39,15 +39,13 @@ public class DataServlet extends HttpServlet {
   // Responsible for listing comments  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // int commentLimit = getCommentNumLimit(request);
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-    //query.setParameter("number-comments", commentLimit);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
 
-    for ( Entity entity : results.asIterable()){ //(FetchOptions.Builder.withLimit(commentLimit))) {
+    for ( Entity entity : results.asIterable()){
       long id = entity.getKey().getId();
       String text = (String) entity.getProperty("text");
       long timestamp = (long) entity.getProperty("timestamp");
@@ -62,7 +60,7 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(jsonComments);
   }
 
-  /**POST method for getting user comments from homepage */
+  /** POST method for getting user comments from homepage */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String userComment = getUserComment(request);
@@ -76,23 +74,6 @@ public class DataServlet extends HttpServlet {
     
     response.sendRedirect("/index.html");
   }
-
-//   //retrieve limit to number of comments from index.html
-//   private int getCommentNumLimit(HttpServletRequest request) {
-//     String limitString = request.getParameter("number-comments");
-//     int limitInt;
-//     try{
-//         limitInt = Integer.parseInt(limitString);
-//     }catch (NumberFormatException e) {
-//         System.err.println("Could not convert to int: " + limitString);
-//         return -1;
-//     }
-//     if (limitInt < 1){
-//         System.err.println("Limit is out of range: "+limitInt );
-//         return -1;
-//     }
-//     return limitInt;
-//   }
 
   // Converts messages to JSON format using GSON
   private String convertToJsonWithGson(List<String> messages){
