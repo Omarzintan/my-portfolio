@@ -22,13 +22,13 @@ import com.google.gson.Gson;
 /** Servlet that deletes comments */
 @WebServlet("/delete-data")
 public class DeleteCommentServlet extends HttpServlet {
-   private static final String entityKey = "Comment";
-   private static final String entityText = "text";
-   private static final String entityTimeStamp = "timestamp";
+   private static final String ENTITY_KEY = "Comment";
+   private static final String ENTITY_TEXT = "text";
+   private static final String ENTITY_TIMESTAMP = "timestamp";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query(entityKey);
+    Query query = new Query(ENTITY_KEY);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
@@ -36,7 +36,7 @@ public class DeleteCommentServlet extends HttpServlet {
 
     for ( Entity entity : results.asIterable()){
       long id = entity.getKey().getId();
-      Key commentKey = KeyFactory.createKey(entityKey, id);
+      Key commentKey = KeyFactory.createKey(ENTITY_KEY, id);
       datastore.delete(commentKey);
     }
 
