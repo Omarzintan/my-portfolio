@@ -71,9 +71,10 @@ body {
   flex-wrap: wrap;
 }
 
-.cutout img { 
-  width: 100%;
+.cutout img {
   height: 100%;
+  max-width: 800px;  
+  max-height: 1500px;
 }
 
 .thumbnails {
