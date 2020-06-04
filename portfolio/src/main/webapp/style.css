@@ -1,20 +1,26 @@
-#parent-div {
+/* #parent-div {
   width:100%;
+  height: 100%;
 }
 #left-panel {
+  height: 80%%;
   width: 20%;
   float: left;
+  background-color: #001724;
 }
 
 #right-panel {
+  height: 80%;
   width: 80%;
-  float:left
-}
+  float:left;
+  overflow: auto;
+} */
 
 #content {
-  background-color: #001724;
-  padding-left: 5%;
-  padding-right: 5%;
+  background-color: white;
+  padding: 5%;
+  margin-left: 25%;
+  height: 1000px;
 }
 
 #links {
@@ -32,25 +38,82 @@
   margin-bottom: 5%;
 }
 
+#nav {
+  margin-top: 0;
+  bottom:0;
+  width:100%;
+  height: 100%;
+  display:inline-block;
+} 
+
+#nav ul {
+  background-color: #001724;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 25%;
+  height: 100%;
+  position:fixed;
+  overflow:auto;
+}
+
+#nav img {
+  margin:0;
+  padding:0;
+  width: 25%;
+  height:40%;
+  position: fixed;
+  overflow: auto;
+}
+
+#footer {
+  background-color: gray;
+  margin-top: 5%;
+  width: 100%;
+}
+
+#footer ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+li a {
+  display: block;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: white;
+  color: black;
+}
+
+.active {
+  background-color: goldenrod;
+  color: black;
+}
 h1 {
   margin-top: 2.5%;
   text-align: center;
   font-size: 500%;
-  color: whitesmoke;
+  color: black;
 }
 
 h2 {
   margin-left: 5%;
   font-style: italic;
   font-size: 200%;
-  color:whitesmoke;
+  color:black;
 }
 
 p1 {
   margin-left: 2.5%;
   font-style: normal;
   font-size: 185%;
-  color: whitesmoke;
+  color: black;
   justify-content: center;
 }
 .contact-info {
@@ -68,7 +131,7 @@ p1 {
 }
 
 body {
-  background-color: #001724;
+  background-color: white;
 }
 
 .cutout {
@@ -77,9 +140,8 @@ body {
 }
 
 .cutout img {
-  width: 100%;
-  height: 100%;
-  max-width: 450px; 
+  background-color: #001724;
+  height: 40%; 
 }
 
 .thumbnails {
@@ -98,11 +160,18 @@ body {
   height: auto;
 }
 
-.internal-links {
-  color: rgb(238,173, 10);
-}
+/* .internal-links {
+  color: white;
+} */
 
 .external-links {
-  color: blue;
+  color: plum;
 }
 
+
+
+/* @media (max-width: 700px) {
+  .cutout img {
+      display: none;
+  }
+} */
