@@ -14,6 +14,7 @@
 
 // Global Variables
 var currentIndex=-1;
+var commentNumLimit;
 /**
  * Adds a random greeting to the page.
  */
@@ -42,6 +43,30 @@ function addRandomFunFact() {
   // Add it to the page.
   const fun_factContainer = document.getElementById('fun-fact-container');
   fun_factContainer.innerText = fun_fact;
+}
+
+
+/* fetches comments from server and sends them to index.html */
+function commentCollector() {
+    fetch('/data')
+    .then(response => response.json())
+    .then((commentList) => {
+      const commentListElement = document.getElementById('comment-list');
+      commentListElement.innerHTML = '';
+      var commentListLength = document.getElementById('number-comments').value;
+      for (i = 0; i < commentListLength; i++ ){
+        commentListElement.appendChild(
+          createListElement(commentList[i].text)
+          );
+      }
+    });
+}
+
+/* Creates <li> component containing text */
+function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
 }
 
 
