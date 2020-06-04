@@ -7,6 +7,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -33,12 +35,11 @@ public class DeleteCommentServlet extends HttpServlet {
     List<Comment> comments = new ArrayList<>();
 
     for ( Entity entity : results.asIterable()){
-      datastore.delete(entity.getKey());
+      long id = entity.getKey().getId();
+      Key commentKey = KeyFactory.createKey(entityKey, id);
+      datastore.delete(commentKey);
     }
 
-    Gson gson = new Gson();
-    String jsonComments = gson.toJson(results);
-    response.setContentType("application/json");
-    response.getWriter().println(jsonComments);
+    response.sendRedirect("/index.html");
   }
 }
