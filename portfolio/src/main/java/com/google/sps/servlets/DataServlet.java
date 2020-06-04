@@ -33,12 +33,13 @@ import com.google.gson.Gson;
 
 
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles comments. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private static final String entityKey = "Comment";
   private static final String entityTimeStamp = "timestamp";
   private static final String entityText = "text";
+
   // Responsible for listing comments  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
