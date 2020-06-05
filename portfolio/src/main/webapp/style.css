@@ -1,15 +1,45 @@
 #parent-div {
   width:100%;
+  height: 100%;
 }
-#left-panel, #right-panel {
-  width: 50%;
+
+#left-panel {
+  height: 90%;
+  width: 30%;
   float: left;
+  background-color: #001724;
+  position: fixed;
+  overflow: auto;
+}
+
+#right-panel {
+  margin-left: 30%;
+  position: fixed;
+  height: 90%;
+  width: 70%;
+  float:left;
+  overflow: auto;
+}
+
+.footer {
+  position: fixed;
+  left:0;
+  bottom:0;
+  background-color: gray;
+  text-align: center;
+}
+
+ul.footer {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 #content {
-  background-color: darkgreen;
-  padding-left: 5%;
-  padding-right: 5%;
+  background-color: white;
+  padding: 5%;
+  height: 100%;
 }
 
 #links {
@@ -27,29 +57,71 @@
   margin-bottom: 5%;
 }
 
-h1 {
+li a {
+  display: block;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: white;
+  color: black;
+}
+
+.active {
+  background-color: goldenrod;
+  color: black;
+}
+
+.header {
+  padding:60px;
+  text-align: center;
+  background: #001724;
+  color: white;
+}
+
+ul.header {
+  background-color: #001724;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow:auto;
+}
+h1.header {
   margin-top: 2.5%;
   text-align: center;
   font-size: 500%;
-  color: whitesmoke;
+  color: white;
 }
 
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 2.5%;
+  text-align: center;
+  font-size: 450%;
+  color: black;
+}
 h2 {
+  font-family: Arial, Helvetica, sans-serif;
   margin-left: 5%;
   font-style: italic;
   font-size: 200%;
-  color:whitesmoke;
+  color:black;
+}
+
+p {
+  font-family: 'Courier New', Courier, monospace;
 }
 
 p1 {
+  font-family: Arial, Helvetica, sans-serif;
   margin-left: 2.5%;
   font-style: normal;
   font-size: 185%;
-  color: whitesmoke;
+  color: black;
   justify-content: center;
-}
-.contact-info {
-  margin-left: 2.5%;
 }
 
 .fun-fact {
@@ -62,8 +134,11 @@ p1 {
   background-color: plum;
 }
 
+.centered-wrapper {
+  text-align: center;
+}
 body {
-  background-color: darkgreen;
+  background-color: white;
 }
 
 .cutout {
@@ -71,9 +146,8 @@ body {
   flex-wrap: wrap;
 }
 
-.cutout img { 
+.cutout img {
   width: 100%;
-  height: 100%;
 }
 
 .thumbnails {
@@ -92,11 +166,29 @@ body {
   height: auto;
 }
 
-.internal-links {
-  color: rgb(238,173, 10);
+.collapsible {
+  background-color: plum;
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: goldenrod;
+}
+
+.project-content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: white;
 }
 
 .external-links {
-  color: blue;
+  color: plum;
 }
-

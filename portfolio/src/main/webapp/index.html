@@ -2,53 +2,135 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zintan's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body onload="commentCollector()">
     <div id="parent-div">
-      <div id="left-panel"><div class="cutout"><img src="/images/zintan-cutout.png"></img></div>
+      <div id="left-panel">
+        <div class="cutout">
+          <img src="/images/zintan-cutout.png"></img>
+        </div>
       </div>
       <div id="right-panel">
+        <div class="header">
+          <h1 class="header">Zintan Mwinila-Yuori</h1>
+          <ul class="header">
+            <li><a class="active" href="#about">Home</a></li>
+            <li><a  href="#projects">My projects</a></li>
+            <li><a  href="#image-gallery">My image gallery</a></li>
+          </ul>
+        </div>
         <div id="content">
-          <h1>Zintan Mwinila-Yuori</h1>
+          <div id="about">
+            <h2> About Me </h2>
             <p1> I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
                 and my major is Computer Science with a probable minor in Mathematics and French. I aspire to be an 
                 influencial Software Developer in the near future. When I am not focused on academic work I enjoy: 
                 <ul>  
-                  <li> Playing Basketball and soccer </li>
                   <li> Playing the guitar and learning other musical intruments </li>
-                  <li> Coding </li>
+                  <li> Playing Basketball and soccer </li>
                   <li> Long boarding </li>
+                  <li> Coding </li>
                 </ul>
             </p1>
-            
-          <button class="button" onclick="addRandomFunFact()">Random Fun Fact about me</button>
-          <p1><div id="fun-fact-container"></div></p1>
+            <div class="centered-wrapper">
+              <button class="button" onclick="addRandomFunFact()" >Random Fun Fact about me</button>
+              <p1><div id="fun-fact-container"></div></p1>
+            </div>
+          </div>
 
-          <form action="/data" method="POST">
-            <p> Comments </p>
-            <input type="text" name="user-comment" value="Comment Here">
-            <br></br>
-            <input type="submit"/>
-          </form>
-          <form>
-            <label for="number-comments"> Choose maximum number of comments displayed </label>
-            <input type="number" id="number-comments" name="number-comments" min="0" max="30" value="5" step="5" onchange="commentCollector()" onkeydown="return false">
-          </form>
-          <button class="button" onclick="deleteComments()">Delete all comments</button>
+          <div id="projects">
+            <h2> My Projects </h2>
+            <button type="button" class="collapsible"> GitLab Auto-Grading Bot </button>
+            <div class="project-content">
+              <p> During the summer of 2019, I developed a bot for assignemt grading as part of my summer internship with a professor from the Pomona College Computer
+              Science department. This bot utilized GitLab infrastructure to provide a platform where students of the Artificial Intelligence course (CS151) could
+              submit code and receive automatic feedback and grades from the bot. I worked with a team to develop, install and test this bot on Pomona's local GitLab
+              repository. This bot aids the professor of this AI course with grading assignments.
+              </p>
+            </div>
+            <button type="button" class="collapsible"> 4-node Raspberry Pi Cluster </button>
+            <div class="project-content">
+              <p>Also during the summer of 2019, I worked in the High Performace Computing (HPC) team in Pomona College's Information Technology Services (ITS) department. I built
+              a 4-node Raspberry Pi Cluster in order to run and simulate certain software used in HPC such as slurm in an effort to test and explore the possibilities of 
+              running HPC jobs from a Raspberry Pi Cluster. This cluster also serves as a way to explain concepts in HPC to others in a small digestible way since HPC is difficult
+              to understand without hands-on experience. Building this cluster included assembling the nodes, working on network routing between the nodes for inter-node communication,
+              setting up remote ssh access to the cluser, mounting a shared storage device, installing slurm and testing the cluster by running jobs on it.
+              </p>
+            </div>
+            <button type="button" class="collapsible"> Web App for Cognitive Science Visual Illusions experiment </button>
+            <div class="project-content">
+              <p> During the spring semester of 2019 I designed and developed a light-weight web application for a visual illusions experiment for my Intro to Cognitive Science class. I developed
+              this app using Python and Django. It featured a database of images of cards and an page for experimentation where subjects had to select between two options what they thought the
+              full shape of a partly hidden card was. The database collected data as to whether subjects guessed rightly or wrongly. I used analysis of this data to present the results of my study.
+              </p>
+            </div>
 
-          <p1><div id="comment-list"></div></p1>
+            <script> 
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
 
-          <p1><a class="internal-links" href="projects.html">My projects</a></p1><br>
-          <p1><a class="internal-links" href="images.html">My image gallery</a></p1>
-          <div id="links"> 
-            <p class="contact-info"> Checkout my <a class="external-links" href="https://github.com/Omarzintan"> GitHub Profile </a></p>
-            <p class="contact-info"> Checkout my <a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> LinkedIn Profile </a></p>
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                console.log(content);
+                if (content.style.display == "block") {
+                  content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+              } );
+            }
+            </script>
+          </div>
+
+          <div id="image-gallery">
+            <h2> My Gallery </h2>
+            <div class="thumbnails">
+              <a href="images/zintan-1.jpg"><img src="images/zintan-1.jpg"/></a>
+              <a href="images/zintan-2.jpg"><img src="images/zintan-2.jpg"/></a>
+              <a href="images/zintan-3.jpg"><img src="images/zintan-3.jpg"/></a>
+              <a href="images/zintan-4.jpg"><img src="images/zintan-4.jpg"/></a>
+              <a href="images/zintan-5.jpg"><img src="images/zintan-5.jpg"/></a>
+              <a href="images/zintan-6.jpg"><img src="images/zintan-6.jpg"/></a>
+              <a href="images/zintan-7.jpg"><img src="images/zintan-7.jpg"/></a>
+              <a href="images/zintan-8.jpg"><img src="images/zintan-8.jpg"/></a>
+              <a href="images/zintan-9.jpg"><img src="images/zintan-9.jpg"/></a>
+              <a href="images/zintan-10.jpg"><img src="images/zintan-10.jpg"/></a>
+              <a href="images/zintan-11.jpg"><img src="images/zintan-11.jpg"/></a>
+              <a href="images/zintan-12.jpg"><img src="images/zintan-12.jpg"/></a>
+              <a href="images/zintan-13.jpg"><img src="images/zintan-13.jpg"/></a>
+              <a href="images/zintan-14.jpg"><img src="images/zintan-14.jpg"/></a>
+            </div>
+          </div>
+
+          <div id="comments">
+            <form action="/data" method="POST">
+              <p> Comments </p>
+              <input type="text" name="user-comment" value="Comment Here">
+              <br></br>
+              <input type="submit"/>
+            </form>
+            <form>
+              <label for="number-comments"> Choose maximum number of comments displayed </label>
+              <input type="number" id="number-comments" name="number-comments" min="0" max="30" value="5" step="5" onchange="commentCollector()" onkeydown="return false">
+            </form>
+            <button class="button" onclick="deleteComments()">Delete all comments</button>
+
+            <p1><div id="comment-list"></div></p1>
           </div>
         </div>
       </div>
+    </div>
+    <div class="footer"> 
+      <ul class="footer">
+        <li><a class="external-links" href="https://github.com/Omarzintan"> GitHub Profile </a></li>
+        <li><a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> LinkedIn Profile </a></li>
+      </ul>
     </div>
   </body>
 </html>
