@@ -52,16 +52,35 @@ function commentCollector() {
     .then(response => response.json())
     .then((commentList) => {
       const commentListElement = document.getElementById('comment-list');
-      commentListElement.innerHTML = '';
-      var commentListLength = document.getElementById('number-comments').value;
-      for (i = 0; i < commentListLength; i++ ){
+      commentListElement.innerHTML = "";
+      var commentListDisplayLength = document.getElementById('number-comments').value ;
+      var commentListLength = commentList.length;
+      if (commentListLength != 0 && commentListLength >= commentListDisplayLength) {
+        for (i = 0; i < commentListDisplayLength; i++ ) {
         commentListElement.appendChild(
           createListElement(commentList[i].text)
           );
+        }
       }
+      else if (commentListLength > 0) {
+        for (i = 0; i < commentListLength; i++ ) {
+        commentListElement.appendChild(
+          createListElement(commentList[i].text)
+          );
+        }
+      }
+      
     });
 }
 
+/* deletes comments */
+function deleteComments() {
+    fetch('/delete-data', {
+        method: 'POST',
+    })
+    .then(commentCollector());
+    
+}
 /* Creates <li> component containing text */
 function createListElement(text) {
     const liElement = document.createElement('li');
