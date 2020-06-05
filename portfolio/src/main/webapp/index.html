@@ -17,14 +17,16 @@
       <div id="right-panel">
         <div class="header">
           <h1 class="header">Zintan Mwinila-Yuori</h1>
-          <ul class="header">
-            <li><a class="active" href="#about">Home</a></li>
-            <li><a  href="#projects">My projects</a></li>
-            <li><a  href="#image-gallery">My image gallery</a></li>
-          </ul>
         </div>
         <div id="content">
-          <div id="about">
+          <ul class="topnav">
+            <li><a  href="#about">About</a></li>
+            <li><a  href="#projects">My projects</a></li>
+            <li><a  href="#image-gallery">My image gallery</a></li>
+            <li style="float:right"><a class="external-links" href="https://github.com/Omarzintan"> My GitHub </a></li>
+            <li style="float:right"><a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> My LinkedIn </a></li>
+          </ul>
+          <div id="about" class="content-block">
             <h2> About Me </h2>
             <p1> I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
                 and my major is Computer Science with a probable minor in Mathematics and French. I aspire to be an 
@@ -42,7 +44,7 @@
             </div>
           </div>
 
-          <div id="projects">
+          <div id="projects" class="content-block">
             <h2> My Projects </h2>
             <button type="button" class="collapsible"> GitLab Auto-Grading Bot </button>
             <div class="project-content">
@@ -88,7 +90,7 @@
             </script>
           </div>
 
-          <div id="image-gallery">
+          <div id="image-gallery" class="content-block">
             <h2> My Gallery </h2>
             <div class="thumbnails">
               <a href="images/zintan-1.jpg"><img src="images/zintan-1.jpg"/></a>
@@ -108,7 +110,7 @@
             </div>
           </div>
 
-          <div id="comments">
+          <div id="comments" class="content-block">
             <form action="/data" method="POST">
               <p> Comments </p>
               <input type="text" name="user-comment" value="Comment Here">
@@ -126,11 +128,6 @@
         </div>
       </div>
     </div>
-    <div class="footer"> 
-      <ul class="footer">
-        <li><a class="external-links" href="https://github.com/Omarzintan"> GitHub Profile </a></li>
-        <li><a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> LinkedIn Profile </a></li>
-      </ul>
-    </div>
+    
   </body>
 </html>

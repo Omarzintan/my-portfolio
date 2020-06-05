@@ -4,7 +4,7 @@
 }
 
 #left-panel {
-  height: 90%;
+  height: 100%;
   width: 30%;
   float: left;
   background-color: #001724;
@@ -15,10 +15,21 @@
 #right-panel {
   margin-left: 30%;
   position: fixed;
-  height: 90%;
+  height: 100%;
   width: 70%;
   float:left;
   overflow: auto;
+}
+
+.content-block {
+ margin: 5%;
+ background-color: #001724;
+ padding: 2px 16px;
+ box-shadow: 0 4px 8px 0 rgba(0,17,24, 0.7);
+}
+
+.content-block:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,17,24, 0.7);
 }
 
 .footer {
@@ -37,7 +48,7 @@ ul.footer {
 }
 
 #content {
-  background-color: white;
+  background-color: whitesmoke;
   padding: 5%;
   height: 100%;
 }
@@ -75,25 +86,28 @@ li a:hover {
 }
 
 .header {
-  padding:60px;
+  padding:40px;
   text-align: center;
-  background: #001724;
-  color: white;
+  background: whitesmoke;
 }
 
-ul.header {
-  background-color: #001724;
+ul.topnav {
+  background-color:#001724;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 100%;
-  overflow:auto;
+  overflow:hidden;
 }
+
+ul.topnav li {
+  float: left;
+}
+
 h1.header {
   margin-top: 2.5%;
   text-align: center;
   font-size: 500%;
-  color: white;
+  color: black;
 }
 
 h1 {
@@ -101,14 +115,14 @@ h1 {
   margin-top: 2.5%;
   text-align: center;
   font-size: 450%;
-  color: black;
+  color: white;
 }
 h2 {
   font-family: Arial, Helvetica, sans-serif;
   margin-left: 5%;
   font-style: italic;
   font-size: 200%;
-  color:black;
+  color: white;
 }
 
 p {
@@ -120,7 +134,7 @@ p1 {
   margin-left: 2.5%;
   font-style: normal;
   font-size: 185%;
-  color: black;
+  color: white;
   justify-content: center;
 }
 
@@ -131,19 +145,20 @@ p1 {
 
 .button {
   font-size: .5cm;
-  background-color: plum;
+  background-color: goldenrod;
 }
 
 .centered-wrapper {
   text-align: center;
 }
 body {
-  background-color: white;
+  background-color: whitesmoke;
 }
 
 .cutout {
   display: flex;
   flex-wrap: wrap;
+  box-shadow: 0 4px 8px 0 rgba(185, 167, 5, 0.7);
 }
 
 .cutout img {
@@ -154,10 +169,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: blanchedalmond;
-  border-width: 2px;
-  border-style: dashed;
-  border-color: darkblue;
 }
 
 .thumbnails img {
@@ -167,7 +178,7 @@ body {
 }
 
 .collapsible {
-  background-color: plum;
+  background-color: goldenron;
   color: black;
   cursor: pointer;
   padding: 18px;
@@ -191,4 +202,9 @@ body {
 
 .external-links {
   color: plum;
+}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right,
+  ul.topnav li {float: none;}
 }
