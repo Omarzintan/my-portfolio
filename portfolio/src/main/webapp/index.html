@@ -40,6 +40,7 @@
             <p1><div id="fun-fact-container"></div></p1>
           </div>
 
+<<<<<<< HEAD
           <div id="projects">
             <h1> My Projects </h1>
             <button type="button" class="collapsible"> GitLab Auto-Grading Bot </button>
@@ -66,6 +67,19 @@
               full shape of a partly hidden card was. The database collected data as to whether subjects guessed rightly or wrongly. I used analysis of this data to present the results of my study.
               </p>
             </div>
+            
+          <form action="/data" method="POST">
+            <p> Comments </p>
+            <input type="text" name="user-comment" value="Comment Here">
+            <br></br>
+            <input type="submit"/>
+          </form>
+          <form>
+            <label for="number-comments"> Choose maximum number of comments displayed </label>
+            <input type="number" id="number-comments" name="number-comments" min="0" max="30" value="5" step="5" onchange="commentCollector()" onkeydown="return false">
+          </form>
+          <button class="button" onclick="deleteComments()">Delete all comments</button>
+
 
             <script> 
             var coll = document.getElementsByClassName("collapsible");
