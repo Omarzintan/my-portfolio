@@ -16,7 +16,7 @@
       </div>
       <div id="right-panel">
         <div class="header">
-          <h1>Zintan Mwinila-Yuori</h1>
+          <h1 class="header">Zintan Mwinila-Yuori</h1>
           <ul class="header">
             <li><a class="active" href="#about">Home</a></li>
             <li><a  href="#projects">My projects</a></li>
@@ -25,23 +25,25 @@
         </div>
         <div id="content">
           <div id="about">
-            <h1> About Me </h1>
+            <h2> About Me </h2>
             <p1> I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
                 and my major is Computer Science with a probable minor in Mathematics and French. I aspire to be an 
                 influencial Software Developer in the near future. When I am not focused on academic work I enjoy: 
                 <ul>  
-                  <li> Playing Basketball and soccer </li>
                   <li> Playing the guitar and learning other musical intruments </li>
-                  <li> Coding </li>
+                  <li> Playing Basketball and soccer </li>
                   <li> Long boarding </li>
+                  <li> Coding </li>
                 </ul>
             </p1>
-            <button class="button" onclick="addRandomFunFact()">Random Fun Fact about me</button>
-            <p1><div id="fun-fact-container"></div></p1>
+            <div class="centered-wrapper">
+              <button class="button" onclick="addRandomFunFact()" >Random Fun Fact about me</button>
+              <p1><div id="fun-fact-container"></div></p1>
+            </div>
           </div>
 
           <div id="projects">
-            <h1> My Projects </h1>
+            <h2> My Projects </h2>
             <button type="button" class="collapsible"> GitLab Auto-Grading Bot </button>
             <div class="project-content">
               <p> During the summer of 2019, I developed a bot for assignemt grading as part of my summer internship with a professor from the Pomona College Computer
@@ -87,7 +89,7 @@
           </div>
 
           <div id="image-gallery">
-            <h1> My Gallery </h1>
+            <h2> My Gallery </h2>
             <div class="thumbnails">
               <a href="images/zintan-1.jpg"><img src="images/zintan-1.jpg"/></a>
               <a href="images/zintan-2.jpg"><img src="images/zintan-2.jpg"/></a>
