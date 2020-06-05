@@ -1,25 +1,44 @@
-/* #parent-div {
+#parent-div {
   width:100%;
-  height: 100%;
+  height: 80%;
 }
+
 #left-panel {
-  height: 80%%;
+  height: 100%;
   width: 20%;
   float: left;
   background-color: #001724;
+  position: fixed;
+  overflow: auto;
 }
 
 #right-panel {
-  height: 80%;
+  margin-left: 20%;
+  position: fixed;
+  height: 100%;
   width: 80%;
   float:left;
   overflow: auto;
-} */
+}
+
+.footer {
+  position: fixed;
+  left:0;
+  bottom:0;
+  background-color: gray;
+  text-align: center;
+}
+
+ul.footer {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
 
 #content {
   background-color: white;
   padding: 5%;
-  margin-left: 25%;
   height: 1000px;
 }
 
@@ -38,47 +57,6 @@
   margin-bottom: 5%;
 }
 
-#nav {
-  margin-top: 0;
-  bottom:0;
-  width:100%;
-  height: 100%;
-  display:inline-block;
-} 
-
-#nav ul {
-  background-color: #001724;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 25%;
-  height: 100%;
-  position:fixed;
-  overflow:auto;
-}
-
-#nav img {
-  margin:0;
-  padding:0;
-  width: 25%;
-  height:40%;
-  position: fixed;
-  overflow: auto;
-}
-
-#footer {
-  background-color: gray;
-  margin-top: 5%;
-  width: 100%;
-}
-
-#footer ul{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 li a {
   display: block;
   color: white;
@@ -95,13 +73,35 @@ li a:hover {
   background-color: goldenrod;
   color: black;
 }
-h1 {
+
+.header {
+  padding:60px;
+  text-align: center;
+  background: #001724;
+  color: white;
+}
+
+ul.header {
+  background-color: #001724;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow:auto;
+}
+h1.header {
   margin-top: 2.5%;
   text-align: center;
   font-size: 500%;
-  color: black;
+  color: white;
 }
 
+h1 {
+  margin-top: 2.5%;
+  text-align: center;
+  font-size: 450%;
+  color: black;
+}
 h2 {
   margin-left: 5%;
   font-style: italic;
@@ -115,9 +115,6 @@ p1 {
   font-size: 185%;
   color: black;
   justify-content: center;
-}
-.contact-info {
-  margin-left: 2.5%;
 }
 
 .fun-fact {
@@ -140,8 +137,7 @@ body {
 }
 
 .cutout img {
-  background-color: #001724;
-  height: 40%; 
+  width: 100%;
 }
 
 .thumbnails {
@@ -160,6 +156,28 @@ body {
   height: auto;
 }
 
+.collapsible {
+  background-color: plum;
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: goldenrod;
+}
+
+.project-content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: white;
+}
 /* .internal-links {
   color: white;
 } */
