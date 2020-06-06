@@ -15,6 +15,7 @@
 // Global Variables
 var currentIndex=-1;
 var commentNumLimit;
+var deleteAllEventNotAdded = true;
 /**
  * Adds a random greeting to the page.
  */
@@ -52,6 +53,13 @@ function commentCollector() {
     .then(response => response.json())
     .then((commentList) => {
       const commentListElement = document.getElementById('comment-list');
+      if (deleteAllEventNotAdded) {
+        const deleteButtonElement = document.getElementById('delete-all-button');
+        deleteButtonElement.addEventListener('click', () => {
+          deleteComments();
+          commentListElement.remove();
+      });
+      }
       commentListElement.innerHTML = "";
       var commentListDisplayLength = document.getElementById('number-comments').value ;
       var commentListLength = commentList.length;
@@ -73,26 +81,21 @@ function commentCollector() {
     });
 }
 
-/* deletes comments */
+/* deletes all comments */
 function deleteComments() {
     fetch('/delete-data', {
         method: 'POST',
-    })
-    .then(commentCollector());
-    
-}
-/* Creates <li> component containing text */
-function createListElement(text) {
-    const liElement = document.createElement('li');
-    liElement.innerText = text;
-    return liElement;
+    });
 }
 
-// <div class="container">
-//   <img src="bandmember.jpg" alt="Avatar" style="width:90px">
-//   <p><span>Chris Fox.</span> CEO at Mighty Schools.</p>
-//   <p>John Doe saved us from a web disaster.</p>
-// </div>
+function deleteOneComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-one-comment', {
+    method: 'POST', body: params
+  });
+}
+
 /** Creates HTML tags for comment post */
 function createComment(comment) {
   var username = comment.username;
@@ -101,17 +104,25 @@ function createComment(comment) {
   const divElement = document.createElement('div');
   const imgUrl = 'images/avatar.jpg';
   const imgElement = document.createElement('img');
-  imgElement.src = imgUrl;
   const spanElement = document.createElement('span');
-  spanElement.innerHTML = username;
   const paragraphElement = document.createElement('p');
+  const textElement = document.createElement('p');
+  const deleteButtonElement = document.createElement('button');
+  deleteButtonElement.className = "comment-delete-button";
+  deleteButtonElement.innerText = 'Delete';
+  deleteButtonElement.addEventListener('click', () => {
+    deleteOneComment(comment);
+    divElement.remove();
+  });
+  imgElement.src = imgUrl;
+  spanElement.innerHTML = username;
   paragraphElement.appendChild(spanElement);
   spanElement.after(" " + date.toDateString());
-  const textElement = document.createElement('p');
   textElement.innerText = userComment;
   divElement.appendChild(imgElement)
   divElement.appendChild(paragraphElement);
   divElement.appendChild(textElement);
+  divElement.appendChild(deleteButtonElement);
   divElement.className = "comment-box";
   console.log(divElement);
   return divElement;
