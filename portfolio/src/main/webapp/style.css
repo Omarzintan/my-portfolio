@@ -200,6 +200,33 @@ body {
   background-color: white;
 }
 
+.comment-box {
+  border: 2px solid #ccc;
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 16px;
+}
+
+.comment-box::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.comment-box img {
+  float: left;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.comment-box span {
+  margin-right: 15px;
+}
+
+.comment-box p {
+  color: black;
+}
 .external-links {
   color: plum;
 }
@@ -207,4 +234,16 @@ body {
 @media screen and (max-width: 600px) {
   ul.topnav li.right,
   ul.topnav li {float: none;}
+}
+
+@media (max-width: 500px) {
+  .container {
+    text-align: center;
+  }
+
+  .container img {
+    margin:auto;
+    float: none;
+    display: block;
+  }
 }
