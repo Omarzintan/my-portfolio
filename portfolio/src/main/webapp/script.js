@@ -58,14 +58,14 @@ function commentCollector() {
       if (commentListLength != 0 && commentListLength >= commentListDisplayLength) {
         for (i = 0; i < commentListDisplayLength; i++ ) {
         commentListElement.appendChild(
-          createListElement(commentList[i].text)
+          createComment(commentList[i])
           );
         }
       }
       else if (commentListLength > 0) {
         for (i = 0; i < commentListLength; i++ ) {
         commentListElement.appendChild(
-          createListElement(commentList[i].text)
+          createComment(commentList[i])
           );
         }
       }
@@ -86,4 +86,33 @@ function createListElement(text) {
     const liElement = document.createElement('li');
     liElement.innerText = text;
     return liElement;
+}
+
+// <div class="container">
+//   <img src="bandmember.jpg" alt="Avatar" style="width:90px">
+//   <p><span>Chris Fox.</span> CEO at Mighty Schools.</p>
+//   <p>John Doe saved us from a web disaster.</p>
+// </div>
+/** Creates HTML tags for comment post */
+function createComment(comment) {
+  var username = comment.username;
+  var userComment = comment.text;
+  var date = new Date(comment.timestamp);
+  const divElement = document.createElement('div');
+  const imgUrl = 'images/avatar.jpg';
+  const imgElement = document.createElement('img');
+  imgElement.src = imgUrl;
+  const spanElement = document.createElement('span');
+  spanElement.innerHTML = username;
+  const paragraphElement = document.createElement('p');
+  paragraphElement.appendChild(spanElement);
+  spanElement.after(" " + date.toDateString());
+  const textElement = document.createElement('p');
+  textElement.innerText = userComment;
+  divElement.appendChild(imgElement)
+  divElement.appendChild(paragraphElement);
+  divElement.appendChild(textElement);
+  divElement.className = "comment-box";
+  console.log(divElement);
+  return divElement;
 }
