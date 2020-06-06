@@ -20,17 +20,18 @@ var deleteAllEventNotAdded = true;
  */
 function addRandomFunFact() {
   const fun_facts =
-      ['"I am a June born!"',
-       '"I was exposed to coding at age 13!"',
-       '"I enjoy Poetry!"', '"I aspire to be a fluent French speaker!"',
+      ['"I am a June born."',
+       '"I was exposed to coding at age 13."',
+       '"I enjoy Poetry"',
+       '"I aspire to be a fluent French speaker."',
        '"I speak two and a half languages :)"', 
-       '"I cannot float in water!"',
-       '"I have had the same haircut since the third grade!"',
-       '"I once wanted to be a lawyer!"', 
-       '"I am the only one of my siblings to have a middle name!"',
-       '"I enjoy listening to hip-hop, gospel and jazz music!"',
-       '"I am left-handed!"',
-       '"I would like to tour Venice in the future!"'
+       '"I cannot float in water."',
+       '"I have had the same haircut since the third grade."',
+       '"I once wanted to be a lawyer."', 
+       '"I am the only one of my siblings to have a middle name."',
+       '"I enjoy listening to hip-hop, gospel and jazz music."',
+       '"I am left-handed."',
+       '"I would like to tour Venice in the future."'
        ];
 
   // Pick a random fun_fact.
@@ -125,6 +126,5 @@ function createComment(comment) {
   divElement.appendChild(textElement);
   divElement.appendChild(deleteButtonElement);
   divElement.className = "comment-box";
-  console.log(divElement);
   return divElement;
 }

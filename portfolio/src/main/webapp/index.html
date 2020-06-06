@@ -15,20 +15,21 @@
         </div>
       </div>
       <div id="right-panel">
-        <div class="header">
-          <h1 class="header"> Hey, I am </h1>
-          <h1 class="header">Omar Zintan Mwinila-Yuori</h1>
-        </div>
         <div id="content">
-          <ul class="topnav" style="font-family:cursive">
+          <div class="header">
+            <h1 class="header"> Hey, I am </h1>
+            <h1 class="header">Omar Zintan Mwinila-Yuori</h1>
+          </div>
+          <ul class="topnav">
             <li><a  href="#about">About</a></li>
             <li><a  href="#projects">My projects</a></li>
+            <li><a href="#comments">Comments</a><li>
             <li><a  href="images.html">My image gallery</a></li>
-            <li style="float:right"><a class="external-links" href="https://github.com/Omarzintan"> My GitHub </a></li>
-            <li style="float:right"><a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> My LinkedIn </a></li>
+            <li><a class="external-links" href="https://github.com/Omarzintan"> My GitHub </a></li>
+            <li><a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> My LinkedIn </a></li>
           </ul>
           <div id="about" class="content-block">
-            <h2>About Me </h2>
+            <h2>About Me</h2>
             <p1>I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
                 and my major is Computer Science with a probable minor in Mathematics and French. I aspire to be an 
                 influencial Software Developer in the near future. When I am not focused on academic work I enjoy: 
@@ -92,18 +93,20 @@
           </div>
 
           <div id="comments" class="content-block">
+            <h2>Comments</h2>
             <form action="/data" method="POST">
               <p> Let me know what you think here! </p>
               <input type="text" name="user-name" placeholder="Type your nickname here">
               <input type="text" name="user-comment" placeholder="Comment Here">
               <br></br>
-              <input type="submit" class="button" value="Comment!"/>
+              <input type="submit" class="button" value="Comment"/>
             </form>
             <br></br>
             <form>
               <label for="number-comments"> Choose maximum number of comments displayed </label>
-              <input type="number" id="number-comments" name="number-comments" min="0" max="30" value="5" step="5" onchange="commentCollector()" onkeydown="return false">
+              <input type="number" id="number-comments" name="number-comments" min="0" max="30" value="5" step="5" onkeydown="return event.key != 'Enter';">
             </form>
+            <button class="button" onclick="commentCollector()"> Change max comments </button>
             <br></br>
             <label for="delete-all-button"> Don't like any of these comments? Go ahead and delete them all!</label>
             <button id="delete-all-button" class="button">Delete all comments</button>
