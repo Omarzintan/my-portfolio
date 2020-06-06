@@ -36,32 +36,11 @@ div.content-block {
   text-indent: 0;
 }
 
-.footer {
-  position: fixed;
-  left:0;
-  bottom:0;
-  background-color: gray;
-  text-align: center;
-}
-
-ul.footer {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 #content {
   background-color: #D9EAF5;
   padding: 5%;
   height: 100%;
 }
-
-#links {
-  background-color: gray;
-  margin-top: 5%;
-}
-
 
 #fun-fact-container {
   margin-left: 2.5%;
