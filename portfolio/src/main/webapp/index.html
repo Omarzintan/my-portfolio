@@ -16,10 +16,11 @@
       </div>
       <div id="right-panel">
         <div class="header">
-          <h1 class="header">Zintan Mwinila-Yuori</h1>
+          <h1 class="header"> Hey, I am </h1>
+          <h1 class="header">Omar Zintan Mwinila-Yuori</h1>
         </div>
         <div id="content">
-          <ul class="topnav">
+          <ul class="topnav" style="font-family:cursive">
             <li><a  href="#about">About</a></li>
             <li><a  href="#projects">My projects</a></li>
             <li><a  href="#image-gallery">My image gallery</a></li>
@@ -27,8 +28,8 @@
             <li style="float:right"><a class="external-links" href="https://www.linkedin.com/in/omar-zintan-m-82494085"> My LinkedIn </a></li>
           </ul>
           <div id="about" class="content-block">
-            <h2> About Me </h2>
-            <p1> I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
+            <h2>About Me </h2>
+            <p1>I am a Ghanaian and I attend Pomona College in Claremont, California. I am currently a Junior 
                 and my major is Computer Science with a probable minor in Mathematics and French. I aspire to be an 
                 influencial Software Developer in the near future. When I am not focused on academic work I enjoy: 
                 <ul>  
@@ -40,7 +41,7 @@
             </p1>
             <div class="centered-wrapper">
               <button class="button" onclick="addRandomFunFact()" >Random Fun Fact about me</button>
-              <p1><div id="fun-fact-container"></div></p1>
+              <p1><div id="fun-fact-container" style="text-align:center"></div></p1>
             </div>
           </div>
 
@@ -48,27 +49,27 @@
             <h2> My Projects </h2>
             <button type="button" class="collapsible"> GitLab Auto-Grading Bot </button>
             <div class="project-content">
-              <p> During the summer of 2019, I developed a bot for assignemt grading as part of my summer internship with a professor from the Pomona College Computer
+              <p2>I developed a bot for assignemt grading as part of my summer internship with a professor from the Pomona College Computer
               Science department. This bot utilized GitLab infrastructure to provide a platform where students of the Artificial Intelligence course (CS151) could
               submit code and receive automatic feedback and grades from the bot. I worked with a team to develop, install and test this bot on Pomona's local GitLab
               repository. This bot aids the professor of this AI course with grading assignments.
-              </p>
+              </p2>
             </div>
             <button type="button" class="collapsible"> 4-node Raspberry Pi Cluster </button>
             <div class="project-content">
-              <p>Also during the summer of 2019, I worked in the High Performace Computing (HPC) team in Pomona College's Information Technology Services (ITS) department. I built
+              <p2>I worked in the High Performace Computing (HPC) team in Pomona College's Information Technology Services (ITS) department. I built
               a 4-node Raspberry Pi Cluster in order to run and simulate certain software used in HPC such as slurm in an effort to test and explore the possibilities of 
               running HPC jobs from a Raspberry Pi Cluster. This cluster also serves as a way to explain concepts in HPC to others in a small digestible way since HPC is difficult
               to understand without hands-on experience. Building this cluster included assembling the nodes, working on network routing between the nodes for inter-node communication,
               setting up remote ssh access to the cluser, mounting a shared storage device, installing slurm and testing the cluster by running jobs on it.
-              </p>
+              </p2>
             </div>
             <button type="button" class="collapsible"> Web App for Cognitive Science Visual Illusions experiment </button>
             <div class="project-content">
-              <p> During the spring semester of 2019 I designed and developed a light-weight web application for a visual illusions experiment for my Intro to Cognitive Science class. I developed
+              <p2>I designed and developed a light-weight web application for a visual illusions experiment for my Intro to Cognitive Science class. I developed
               this app using Python and Django. It featured a database of images of cards and an page for experimentation where subjects had to select between two options what they thought the
               full shape of a partly hidden card was. The database collected data as to whether subjects guessed rightly or wrongly. I used analysis of this data to present the results of my study.
-              </p>
+              </p2>
             </div>
 
             <script> 
@@ -112,16 +113,19 @@
 
           <div id="comments" class="content-block">
             <form action="/data" method="POST">
-              <p> Comments </p>
+              <p> Let me know what you think here! </p>
               <input type="text" name="user-name" placeholder="Type your nickname here">
               <input type="text" name="user-comment" placeholder="Comment Here">
               <br></br>
-              <input type="submit"/>
+              <input type="submit" class="button" value="Comment!"/>
             </form>
+            <br></br>
             <form>
               <label for="number-comments"> Choose maximum number of comments displayed </label>
               <input type="number" id="number-comments" name="number-comments" min="0" max="30" value="5" step="5" onchange="commentCollector()" onkeydown="return false">
             </form>
+            <br></br>
+            <label for="delete-all-button"> Don't like any of these comments? Go ahead and delete them all!</label>
             <button id="delete-all-button" class="button">Delete all comments</button>
 
             <p1><div id="comment-list"></div></p1>

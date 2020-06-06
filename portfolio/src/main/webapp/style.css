@@ -7,9 +7,9 @@
   height: 100%;
   width: 30%;
   float: left;
-  background-color: #001724;
+  background-color: #D9EAF5;
   position: fixed;
-  overflow: auto;
+  overflow: hidden;
 }
 
 #right-panel {
@@ -23,13 +23,17 @@
 
 .content-block {
  margin: 5%;
- background-color: #001724;
- padding: 2px 16px;
- box-shadow: 0 4px 8px 0 rgba(0,17,24, 0.7);
+ background-color: #013d5f;
+ padding: 8px 16px;
+ box-shadow: 0 4px 8px 0 rgba(00,00,00,1);
 }
 
 .content-block:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,17,24, 0.7);
+  box-shadow: 0 8px 16px 0 rgba(0,17,24,1.5);
+}
+
+div.content-block {
+  text-indent: 0;
 }
 
 .footer {
@@ -48,7 +52,7 @@ ul.footer {
 }
 
 #content {
-  background-color: whitesmoke;
+  background-color: #D9EAF5;
   padding: 5%;
   height: 100%;
 }
@@ -86,15 +90,14 @@ li a:hover {
 }
 
 .header {
-  padding:40px;
-  text-align: center;
-  background: whitesmoke;
+  padding:30px;
+  background: #D9EAF5;
 }
 
 ul.topnav {
-  background-color:#001724;
+  background-color:#013d5f;
   list-style-type: none;
-  margin: 0;
+  margin: 5%;
   padding: 0;
   overflow:hidden;
 }
@@ -104,38 +107,43 @@ ul.topnav li {
 }
 
 h1.header {
-  margin-top: 2.5%;
-  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+  text-align: left;
   font-size: 500%;
   color: black;
 }
 
-h1 {
-  font-family: Arial, Helvetica, sans-serif;
-  margin-top: 2.5%;
-  text-align: center;
-  font-size: 450%;
-  color: white;
-}
 h2 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: cursive;
   margin-left: 5%;
-  font-style: italic;
   font-size: 200%;
   color: white;
 }
 
+.content-block p {
+  color: white;
+}
+
 p {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: cursive;
+  font-size: 120%;
 }
 
 p1 {
-  font-family: Arial, Helvetica, sans-serif;
-  margin-left: 2.5%;
-  font-style: normal;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 185%;
   color: white;
-  justify-content: center;
+  text-align: justify;
+}
+
+p2 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-style: normal;
+  font-size: 150%;
+  color: black;
+  text-align: justify;
 }
 
 .fun-fact {
@@ -146,19 +154,32 @@ p1 {
 .button {
   font-size: .5cm;
   background-color: goldenrod;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-family: cursive;
+  border-radius: 8px;
 }
 
+label {
+  color: white;
+  font-family: cursive;
+  font-size: 120%;
+}
 .centered-wrapper {
   text-align: center;
 }
 body {
-  background-color: whitesmoke;
+  background-color:#D9EAF5;
 }
 
 .cutout {
   display: flex;
   flex-wrap: wrap;
-  box-shadow: 0 4px 8px 0 rgba(185, 167, 5, 0.7);
+  box-shadow: 0 4px 8px 0 rgba(01, 61, 95, 0.7);
 }
 
 .cutout img {
@@ -178,15 +199,15 @@ body {
 }
 
 .collapsible {
-  background-color: goldenron;
-  color: black;
+  background-color: #013d5f;
+  color: white;
   cursor: pointer;
   padding: 18px;
   width: 100%;
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
+  font-size: 120%;
 }
 
 .active, .collapsible:hover {
@@ -194,10 +215,10 @@ body {
 }
 
 .project-content {
-  padding: 0 18px;
+  padding: 8px 18px;
   display: none;
   overflow: hidden;
-  background-color: white;
+  background-color: #D9EAF5;
 }
 
 .comment-box {
@@ -215,6 +236,7 @@ body {
 }
 
 .comment-box img {
+  width: 20%;
   float: left;
   margin-right: 20px;
   border-radius: 50%;
@@ -237,11 +259,11 @@ body {
 }
 
 @media (max-width: 500px) {
-  .container {
+  .comment-box {
     text-align: center;
   }
 
-  .container img {
+  .comment-box img {
     margin:auto;
     float: none;
     display: block;

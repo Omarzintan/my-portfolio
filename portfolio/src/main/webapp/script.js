@@ -100,6 +100,8 @@ function createComment(comment) {
   var username = comment.username;
   var userComment = comment.text;
   var date = new Date(comment.timestamp);
+  var dateString = date.toDateString();
+  var timeString = date.toLocaleTimeString();
   const divElement = document.createElement('div');
   const imgUrl = 'images/avatar.jpg';
   const imgElement = document.createElement('img');
@@ -107,7 +109,7 @@ function createComment(comment) {
   const paragraphElement = document.createElement('p');
   const textElement = document.createElement('p');
   const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.className = "comment-delete-button";
+  deleteButtonElement.className = "button";
   deleteButtonElement.innerText = 'Delete';
   deleteButtonElement.addEventListener('click', () => {
     deleteOneComment(comment);
@@ -116,7 +118,7 @@ function createComment(comment) {
   imgElement.src = imgUrl;
   spanElement.innerHTML = username;
   paragraphElement.appendChild(spanElement);
-  spanElement.after(" " + date.toDateString());
+  spanElement.after(" " + timeString + " " + dateString);
   textElement.innerText = userComment;
   divElement.appendChild(imgElement)
   divElement.appendChild(paragraphElement);
