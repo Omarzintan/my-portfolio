@@ -102,23 +102,4 @@ public class DataServlet extends HttpServlet {
     }
     return property;
   }
-//   private String getUserComment(HttpServletRequest request) {
-//     String commentId = "user-comment";
-//     String comment = request.getParameter(commentId);
-//     if (comment.isEmpty()) {
-//       System.err.println("Comment box empty! Please type in your comment");
-//       return "error";
-//     }
-//     return comment;
-//   }
-
-//   private String getUserName(HttpServletRequest request) {
-//     String usernameId = "username";
-//     String username = request.getParameter(usernameId);
-//     if (username.isEmpty()){
-//         System.err.println("Comment box empty! Please type in your comment");
-//       return "error";
-//     }
-//     return username;
-//   }
 }

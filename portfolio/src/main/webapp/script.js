@@ -14,7 +14,6 @@
 
 // Global Variables
 var currentIndex=-1;
-var commentNumLimit;
 var deleteAllEventNotAdded = true;
 /**
  * Adds a random greeting to the page.
