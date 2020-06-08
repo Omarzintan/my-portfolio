@@ -39,6 +39,9 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_KEY = "Comment";
   private static final String ENTITY_TIMESTAMP = "timestamp";
   private static final String ENTITY_TEXT = "text";
+  private static final String ENTITY_USERNAME = "username";
+  private static final String USERNAMEID = "user-name";
+  private static final String USERCOMMENTID = "user-comment";
 
   // Responsible for listing comments  
   @Override
@@ -51,10 +54,11 @@ public class DataServlet extends HttpServlet {
 
     for ( Entity entity : results.asIterable()){
       long id = entity.getKey().getId();
+      String username = (String) entity.getProperty(ENTITY_USERNAME);
       String text = (String) entity.getProperty(ENTITY_TEXT);
       long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP);
 
-      Comment comment = new Comment(id, text, timestamp);
+      Comment comment = new Comment(id, username, text, timestamp);
       comments.add(comment);
     }
 
@@ -67,10 +71,13 @@ public class DataServlet extends HttpServlet {
   /** POST method for getting user comments from homepage */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String userComment = getUserComment(request);
+    String userComment = getUserInfo(request, USERCOMMENTID);
+    String userName = getUserInfo(request, USERNAMEID);
+
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity(ENTITY_KEY);
+    commentEntity.setProperty(ENTITY_USERNAME, userName);
     commentEntity.setProperty(ENTITY_TEXT, userComment);
     commentEntity.setProperty(ENTITY_TIMESTAMP, timestamp);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -80,19 +87,19 @@ public class DataServlet extends HttpServlet {
   }
 
   // Converts messages to JSON format using GSON
-  private String convertToJsonWithGson(List<String> messages){
+  private String convertToJsonWithGson(List<String> messages) {
     Gson gson = new Gson();
     String jsonMessages = gson.toJson(messages);
     return jsonMessages;
   }
 
-  private String getUserComment(HttpServletRequest request){
-    String commentId = "user-comment";
-    String comment = request.getParameter(commentId);
-    if (comment.isEmpty()) {
-      System.err.println("Comment box empty! Please type in your comment");
+  /** returns user information based on what propertyId given */
+  private String getUserInfo(HttpServletRequest request, String propertyId) {
+    String property = request.getParameter(propertyId);
+    if (property.isEmpty()) {
+      System.err.println("Input box empty! Please ensure you type in your username and comment");
       return "error";
     }
-    return comment;
+    return property;
   }
 }

@@ -15,13 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.ArrayList;
-import com.google.gson.Gson;
+
 
 /** Servlet that deletes comments */
 @WebServlet("/delete-data")
-public class DeleteCommentServlet extends HttpServlet {
+public class DeleteCommentsServlet extends HttpServlet {
    private static final String ENTITY_KEY = "Comment";
    private static final String ENTITY_TEXT = "text";
    private static final String ENTITY_TIMESTAMP = "timestamp";
@@ -32,14 +30,10 @@ public class DeleteCommentServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<Comment> comments = new ArrayList<>();
-
     for ( Entity entity : results.asIterable()){
       long id = entity.getKey().getId();
       Key commentKey = KeyFactory.createKey(ENTITY_KEY, id);
       datastore.delete(commentKey);
     }
-
-    response.sendRedirect("/index.html");
   }
 }
