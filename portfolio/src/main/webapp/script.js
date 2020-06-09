@@ -32,7 +32,7 @@ function addRandomFunFact() {
        '"I enjoy listening to hip-hop, gospel and jazz music."',
        '"I am left-handed."',
        '"I would like to tour Venice in the future."'
-       ];
+      ];
 
   // Pick a random fun_fact.
   var index = Math.floor(Math.random() * fun_facts.length);
@@ -49,35 +49,34 @@ function addRandomFunFact() {
 
 /* fetches comments from server and sends them to index.html */
 function commentCollector() {
-    fetch('/data')
-    .then(response => response.json())
-    .then((commentList) => {
-      const commentListElement = document.getElementById('comment-list');
-      if (deleteAllEventNotAdded) {
-        const deleteButtonElement = document.getElementById('delete-all-button');
-        deleteButtonElement.addEventListener('click', () => {
-          deleteComments();
-          commentListElement.remove();
-      });
-      }
-      commentListElement.innerHTML = "";
-      var commentListDisplayLength = document.getElementById('number-comments').value ;
-      var commentListLength = commentList.length;
-      if (commentListLength != 0 && commentListLength >= commentListDisplayLength) {
-        for (i = 0; i < commentListDisplayLength; i++ ) {
-        commentListElement.appendChild(
-          createComment(commentList[i])
-          );
+        fetch('/data')
+        .then(response => response.json())
+        .then((commentList) => {
+        const commentListElement = document.getElementById('comment-list');
+        if (deleteAllEventNotAdded) {
+            const deleteButtonElement = document.getElementById('delete-all-button');
+            deleteButtonElement.addEventListener('click', () => {
+            deleteComments();
+            commentListElement.remove();
+            });
         }
-      }
-      else if (commentListLength > 0) {
-        for (i = 0; i < commentListLength; i++ ) {
-        commentListElement.appendChild(
-          createComment(commentList[i])
-          );
+        commentListElement.innerHTML = "";
+        var commentListDisplayLength = document.getElementById('number-comments').value ;
+        var commentListLength = commentList.length;
+        if (commentListLength != 0 && commentListLength >= commentListDisplayLength) {
+            for (i = 0; i < commentListDisplayLength; i++ ) {
+                commentListElement.appendChild(
+                    createComment(commentList[i])
+                );
+            }
         }
-      }
-      
+        else if (commentListLength > 0) {
+            for (i = 0; i < commentListLength; i++ ) {
+                commentListElement.appendChild(
+                    createComment(commentList[i])
+                );
+            }
+        }
     });
 }
 
@@ -94,6 +93,38 @@ function deleteOneComment(comment) {
   fetch('/delete-one-comment', {
     method: 'POST', body: params
   });
+}
+
+/** retrieves user login status and login and logout urls*/
+function getUserLoginStatus() {
+    fetch('/login')
+    .then(response => response.json())
+    .then((responseList) => { 
+        var loginStatus = responseList[0];
+        var loginUrl = responseList[1];
+        var logoutUrl = responseList[2];
+        const commentsDivElement = document.getElementById('comments');
+        const loginDivElement = document.getElementById('login');
+        const loginLinkElement = document.createElement('a');
+        const logoutLinkElement = document.createElement('a');
+        loginLinkElement.innerText = 'Login';
+        logoutLinkElement.innerText = "Logout";
+        loginLinkElement.href=loginUrl;
+        logoutLinkElement.href = logoutUrl;
+        loginLinkElement.className = "external-links";
+        logoutLinkElement.className = "external-links";
+
+        if (loginStatus=="0") {
+            commentsDivElement.style.display="none";
+            loginDivElement.appendChild(loginLinkElement);
+        }
+        else { 
+            textElement = document.createElement('p');
+            textElement.innerHTML = "Hey user, you can comment below";
+            loginDivElement.appendChild(textElement);
+            loginDivElement.appendChild(logoutLinkElement);
+            commentCollector() }
+    });   
 }
 
 /** Creates HTML tags for comment post */
