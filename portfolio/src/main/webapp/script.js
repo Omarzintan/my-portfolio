@@ -103,6 +103,7 @@ function getUserLoginStatus() {
         var loginStatus = responseList[0];
         var loginUrl = responseList[1];
         var logoutUrl = responseList[2];
+        var userEmail = responseList[3];
         const commentsDivElement = document.getElementById('comments');
         const loginDivElement = document.getElementById('login');
         const loginLinkElement = document.createElement('a');
@@ -120,7 +121,7 @@ function getUserLoginStatus() {
         }
         else { 
             textElement = document.createElement('p');
-            textElement.innerHTML = "Hey user, you can comment below";
+            textElement.innerHTML = "Hey "+userEmail+", you can comment below";
             loginDivElement.appendChild(textElement);
             loginDivElement.appendChild(logoutLinkElement);
             commentCollector() }

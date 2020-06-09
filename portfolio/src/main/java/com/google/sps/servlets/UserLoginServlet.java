@@ -22,23 +22,23 @@ public class UserLoginServlet extends HttpServlet {
     PrintWriter out = response.getWriter();
     UserService userService = UserServiceFactory.getUserService();
     Gson gson = new Gson();
-    List<String> responseList = new ArrayList<>(3);
+    List<String> responseList = new ArrayList<>(4);
     String loginStatus;
     String loginUrl = userService.createLoginURL("/");
     String logoutUrl = userService.createLogoutURL("/");
-    
+    String userEmail = "";
 
-    // If user is not logged in
     if (!userService.isUserLoggedIn()) {
         loginStatus="0";
     }
     else {
-        // User is logged in
         loginStatus="1";
+        userEmail = userService.getCurrentUser().getEmail();
     }
     responseList.add(0, loginStatus);
     responseList.add(1, loginUrl);
     responseList.add(2, logoutUrl);
+    responseList.add(3, userEmail);
     out.println(gson.toJson(responseList));
   }
 }
