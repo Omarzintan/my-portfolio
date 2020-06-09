@@ -23,7 +23,6 @@ public class UserLoginServlet extends HttpServlet {
     if (!userService.isUserLoggedIn()) {
       String loginUrl = userService.createLoginURL("/login");
       out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
-      return;
     }
 
     // User is logged in
