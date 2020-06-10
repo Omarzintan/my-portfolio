@@ -26,7 +26,6 @@ public class UserLoginServlet extends HttpServlet {
     String loginStatus;
     String loginUrl = userService.createLoginURL("/");
     String logoutUrl = userService.createLogoutURL("/");
-    String userEmail = "";
     String userNickname = "";
 
     if (!userService.isUserLoggedIn()) {
@@ -34,7 +33,6 @@ public class UserLoginServlet extends HttpServlet {
     }
     else {
       loginStatus = "1";
-      userEmail = userService.getCurrentUser().getEmail();
       userNickname = getUserNickname(userService.getCurrentUser().getUserId());
       if (userNickname == null) {
         response.sendRedirect("/user-nickname");
@@ -44,8 +42,7 @@ public class UserLoginServlet extends HttpServlet {
     responseList.add(0, loginStatus);
     responseList.add(1, loginUrl);
     responseList.add(2, logoutUrl);
-    responseList.add(3, userEmail);
-    responseList.add(4, userNickname);
+    responseList.add(3, userNickname);
     out.println(gson.toJson(responseList));
   }
 

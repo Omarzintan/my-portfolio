@@ -109,8 +109,7 @@ function getUserLoginStatus() {
     var loginStatus = responseList[0];
     var loginUrl = responseList[1];
     var logoutUrl = responseList[2];
-    var userEmail = responseList[3];
-    var userNickname = responseList[4];
+    var userNickname = responseList[3];
     const commentsDivElement = document.getElementById('comments');
     const loginDivElement = document.getElementById('login');
     const loginLinkElement = document.createElement('a');
