@@ -13,26 +13,26 @@
 // limitations under the License.
 
 // Global Variables
-var currentIndex=-1;
+var currentIndex = -1;
 var deleteAllEventNotAdded = true;
 /**
  * Adds a random greeting to the page.
  */
 function addRandomFunFact() {
   const fun_facts =
-      ['"I am a June born."',
-       '"I was exposed to coding at age 13."',
-       '"I enjoy Poetry"',
-       '"I aspire to be a fluent French speaker."',
-       '"I speak two and a half languages :)"', 
-       '"I cannot float in water."',
-       '"I have had the same haircut since the third grade."',
-       '"I once wanted to be a lawyer."', 
-       '"I am the only one of my siblings to have a middle name."',
-       '"I enjoy listening to hip-hop, gospel and jazz music."',
-       '"I am left-handed."',
-       '"I would like to tour Venice in the future."'
-      ];
+    ['"I am a June born."',
+     '"I was exposed to coding at age 13."',
+     '"I enjoy Poetry"',
+     '"I aspire to be a fluent French speaker."',
+     '"I speak two and a half languages :)"', 
+     '"I cannot float in water."',
+     '"I have had the same haircut since the third grade."',
+     '"I once wanted to be a lawyer."', 
+     '"I am the only one of my siblings to have a middle name."',
+     '"I enjoy listening to hip-hop, gospel and jazz music."',
+     '"I am left-handed."',
+     '"I would like to tour Venice in the future."'
+    ];
 
   // Pick a random fun_fact.
   var index = Math.floor(Math.random() * fun_facts.length);
@@ -47,43 +47,46 @@ function addRandomFunFact() {
 }
 
 
-/* fetches comments from server and sends them to index.html */
+/* Fetches comments from server and sends them to index.html */
 function commentCollector() {
-        fetch('/data')
-        .then(response => response.json())
-        .then((commentList) => {
-        const commentListElement = document.getElementById('comment-list');
-        if (deleteAllEventNotAdded) {
-            const deleteButtonElement = document.getElementById('delete-all-button');
-            deleteButtonElement.addEventListener('click', () => {
-            deleteComments();
-            commentListElement.remove();
-            });
-        }
-        commentListElement.innerHTML = "";
-        var commentListDisplayLength = document.getElementById('number-comments').value ;
-        var commentListLength = commentList.length;
-        if (commentListLength != 0 && commentListLength >= commentListDisplayLength) {
-            for (i = 0; i < commentListDisplayLength; i++ ) {
-                commentListElement.appendChild(
-                    createComment(commentList[i])
-                );
-            }
-        }
-        else if (commentListLength > 0) {
-            for (i = 0; i < commentListLength; i++ ) {
-                commentListElement.appendChild(
-                    createComment(commentList[i])
-                );
-            }
-        }
-    });
+  fetch('/data')
+  .then(response => response.json())
+  .then((commentList) => {
+    var commentListLength = commentList.length;
+    var commentListDisplayLength = document.getElementById('number-comments').value ;
+    if (commentList == null || commentList.length == 0) {
+      return;
+    }
+    const commentListElement = document.getElementById('comment-list');
+    if (deleteAllEventNotAdded) {
+      const deleteButtonElement = document.getElementById('delete-all-button');
+      deleteButtonElement.addEventListener('click', () => {
+        deleteComments();
+        commentListElement.remove();
+        });
+    }
+    commentListElement.innerHTML = '';
+    if (commentListLength >= commentListDisplayLength) {
+      for (i = 0; i < commentListDisplayLength; i++ ) {
+        commentListElement.appendChild(
+          createComment(commentList[i])
+          );
+      }
+    }
+    else {
+      for (i = 0; i < commentListLength; i++ ) {
+        commentListElement.appendChild(
+          createComment(commentList[i])
+          );
+      }
+    }
+  });
 }
 
-/* deletes all comments */
+/* Deletes all comments */
 function deleteComments() {
-    fetch('/delete-data', {
-        method: 'POST',
+  fetch('/delete-data', {
+    method: 'POST',
     });
 }
 
@@ -95,36 +98,39 @@ function deleteOneComment(comment) {
   });
 }
 
-/** retrieves user login status and login and logout urls*/
+/** Retrieves user login status and login and logout urls */
 function getUserLoginStatus() {
-    fetch('/login')
-    .then(response => response.json())
-    .then((responseList) => { 
-        var loginStatus = responseList[0];
-        var loginUrl = responseList[1];
-        var logoutUrl = responseList[2];
-        var userEmail = responseList[3];
-        const commentsDivElement = document.getElementById('comments');
-        const loginDivElement = document.getElementById('login');
-        const loginLinkElement = document.createElement('a');
-        const logoutLinkElement = document.createElement('a');
-        loginLinkElement.innerText = 'Login';
-        logoutLinkElement.innerText = "Logout";
-        loginLinkElement.href=loginUrl;
-        logoutLinkElement.href = logoutUrl;
-        loginLinkElement.className = "external-links";
-        logoutLinkElement.className = "external-links";
+  fetch('/login')
+  .then(response => response.json())
+  .then((responseList) => {
+    if (responseList == null || responseList.length == 0) { 
+      return;
+    } 
+    var loginStatus = responseList[0];
+    var loginUrl = responseList[1];
+    var logoutUrl = responseList[2];
+    var userEmail = responseList[3];
+    const commentsDivElement = document.getElementById('comments');
+    const loginDivElement = document.getElementById('login');
+    const loginLinkElement = document.createElement('a');
+    const logoutLinkElement = document.createElement('a');
+    loginLinkElement.innerText = 'Login';
+    logoutLinkElement.innerText = 'Logout';
+    loginLinkElement.href=loginUrl;
+    logoutLinkElement.href = logoutUrl;
+    loginLinkElement.className = 'external-links';
+    logoutLinkElement.className = 'external-links';
 
-        if (loginStatus=="0") {
-            commentsDivElement.style.display="none";
-            loginDivElement.appendChild(loginLinkElement);
-        }
-        else { 
-            textElement = document.createElement('p');
-            textElement.innerHTML = "Hey "+userEmail+", you can comment below";
-            loginDivElement.appendChild(textElement);
-            loginDivElement.appendChild(logoutLinkElement);
-            commentCollector() }
+    if (loginStatus == '0') {
+      commentsDivElement.style.display = 'none';
+      loginDivElement.appendChild(loginLinkElement);
+    }
+    else { 
+      textElement = document.createElement('p');
+      textElement.innerHTML = 'Hey '+userEmail+', you can comment below';
+      loginDivElement.appendChild(textElement);
+      loginDivElement.appendChild(logoutLinkElement);
+      commentCollector() }
     });   
 }
 
@@ -142,7 +148,7 @@ function createComment(comment) {
   const paragraphElement = document.createElement('p');
   const textElement = document.createElement('p');
   const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.className = "button";
+  deleteButtonElement.className = 'button';
   deleteButtonElement.innerText = 'Delete';
   deleteButtonElement.addEventListener('click', () => {
     deleteOneComment(comment);
@@ -151,12 +157,12 @@ function createComment(comment) {
   imgElement.src = imgUrl;
   spanElement.innerHTML = username;
   paragraphElement.appendChild(spanElement);
-  spanElement.after(" " + timeString + " " + dateString);
+  spanElement.after(' ' + timeString + ' ' + dateString);
   textElement.innerText = userComment;
   divElement.appendChild(imgElement)
   divElement.appendChild(paragraphElement);
   divElement.appendChild(textElement);
   divElement.appendChild(deleteButtonElement);
-  divElement.className = "comment-box";
+  divElement.className = 'comment-box';
   return divElement;
 }

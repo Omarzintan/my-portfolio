@@ -29,10 +29,10 @@ public class UserLoginServlet extends HttpServlet {
     String userEmail = "";
 
     if (!userService.isUserLoggedIn()) {
-        loginStatus="0";
+        loginStatus = "0";
     }
     else {
-        loginStatus="1";
+        loginStatus = "1";
         userEmail = userService.getCurrentUser().getEmail();
     }
     responseList.add(0, loginStatus);
