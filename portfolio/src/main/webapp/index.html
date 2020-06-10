@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="commentCollector()">
+  <body onload="getUserLoginStatus()">
     <div id="parent-div">
       <div id="left-panel">
         <div class="cutout">
@@ -92,8 +92,9 @@
             </script>
           </div>
 
+          <h2>Comments</h2>
+          <div id="login" class="content-block"></div>
           <div id="comments" class="content-block">
-            <h2>Comments</h2>
             <form action="/data" method="POST">
               <p> Let me know what you think here! </p>
               <input type="text" name="user-name" placeholder="Type your nickname here">

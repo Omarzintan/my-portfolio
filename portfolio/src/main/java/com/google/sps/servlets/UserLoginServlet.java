@@ -9,27 +9,36 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.ArrayList;
+import com.google.gson.Gson;
 
 @WebServlet("/login")
 public class UserLoginServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
+    response.setContentType("application/json");
     PrintWriter out = response.getWriter();
     UserService userService = UserServiceFactory.getUserService();
+    Gson gson = new Gson();
+    List<String> responseList = new ArrayList<>(4);
+    String loginStatus;
+    String loginUrl = userService.createLoginURL("/");
+    String logoutUrl = userService.createLogoutURL("/");
+    String userEmail = "";
 
-    // If user is not logged in, show a login form (could also redirect to a login page)
     if (!userService.isUserLoggedIn()) {
-      String loginUrl = userService.createLoginURL("/login");
-      out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+        loginStatus = "0";
     }
-
-    // User is logged in
-    String userEmail = userService.getCurrentUser().getEmail();
-    String logoutUrl = userService.createLogoutURL("/login");
-    out.println("<h1>Login Page</h1>");
-    out.println("<p>Hello " + userEmail + ". You are logged in!</p>");
-    out.println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+    else {
+        loginStatus = "1";
+        userEmail = userService.getCurrentUser().getEmail();
+    }
+    responseList.add(0, loginStatus);
+    responseList.add(1, loginUrl);
+    responseList.add(2, logoutUrl);
+    responseList.add(3, userEmail);
+    out.println(gson.toJson(responseList));
   }
 }

@@ -21,6 +21,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -40,8 +42,10 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_TIMESTAMP = "timestamp";
   private static final String ENTITY_TEXT = "text";
   private static final String ENTITY_USERNAME = "username";
+  private static final String ENTITY_EMAIL = "userEmail";
   private static final String USERNAMEID = "user-name";
   private static final String USERCOMMENTID = "user-comment";
+  private static final String USEREMAILID = "user-email";
 
   // Responsible for listing comments  
   @Override
@@ -57,8 +61,9 @@ public class DataServlet extends HttpServlet {
       String username = (String) entity.getProperty(ENTITY_USERNAME);
       String text = (String) entity.getProperty(ENTITY_TEXT);
       long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP);
+      String userEmail = (String) entity.getProperty(ENTITY_EMAIL);
 
-      Comment comment = new Comment(id, username, text, timestamp);
+      Comment comment = new Comment(id, username, text, timestamp, userEmail);
       comments.add(comment);
     }
 
@@ -68,33 +73,31 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(jsonComments);
   }
 
-  /** POST method for getting user comments from homepage */
+  /** POST method for getting user comments from homepage and storing them */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String userComment = getUserInfo(request, USERCOMMENTID);
     String userName = getUserInfo(request, USERNAMEID);
-
+    String userEmail = getUserInfo(request, USEREMAILID);
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity(ENTITY_KEY);
     commentEntity.setProperty(ENTITY_USERNAME, userName);
     commentEntity.setProperty(ENTITY_TEXT, userComment);
     commentEntity.setProperty(ENTITY_TIMESTAMP, timestamp);
+    commentEntity.setProperty(ENTITY_EMAIL, userEmail);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
     
     response.sendRedirect("/index.html");
   }
 
-  // Converts messages to JSON format using GSON
-  private String convertToJsonWithGson(List<String> messages) {
-    Gson gson = new Gson();
-    String jsonMessages = gson.toJson(messages);
-    return jsonMessages;
-  }
-
   /** returns user information based on what propertyId given */
   private String getUserInfo(HttpServletRequest request, String propertyId) {
+    if ( propertyId==USEREMAILID ){
+        UserService userService = UserServiceFactory.getUserService();
+        return userService.getCurrentUser().getEmail();
+    }
     String property = request.getParameter(propertyId);
     if (property.isEmpty()) {
       System.err.println("Input box empty! Please ensure you type in your username and comment");
