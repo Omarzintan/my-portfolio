@@ -43,7 +43,6 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_TEXT = "text";
   private static final String ENTITY_USERNAME = "username";
   private static final String ENTITY_EMAIL = "userEmail";
-  private static final String USERNAMEID = "user-name";
   private static final String USERCOMMENTID = "user-comment";
   private static final String USEREMAILID = "user-email";
 
@@ -76,10 +75,17 @@ public class DataServlet extends HttpServlet {
   /** POST method for getting user comments from homepage and storing them */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    String userId = userService.getCurrentUser().getUserId();
+    String userName = getUserNickname(userId);
     String userComment = getUserInfo(request, USERCOMMENTID);
-    String userName = getUserInfo(request, USERNAMEID);
     String userEmail = getUserInfo(request, USEREMAILID);
     long timestamp = System.currentTimeMillis();
+    
+    if (userName == null) {
+      response.sendRedirect("/user-nickname");
+      return;
+    }
 
     Entity commentEntity = new Entity(ENTITY_KEY);
     commentEntity.setProperty(ENTITY_USERNAME, userName);
@@ -94,7 +100,7 @@ public class DataServlet extends HttpServlet {
 
   /** returns user information based on what propertyId given */
   private String getUserInfo(HttpServletRequest request, String propertyId) {
-    if ( propertyId==USEREMAILID ){
+    if ( propertyId == USEREMAILID ){
         UserService userService = UserServiceFactory.getUserService();
         return userService.getCurrentUser().getEmail();
     }
@@ -104,5 +110,22 @@ public class DataServlet extends HttpServlet {
       return "error";
     }
     return property;
+  }
+
+  /**
+  * Returns the nickname of the user with id, or null if the user has not set a nickname.
+  */
+  private String getUserNickname(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return null;
+    }
+    String nickname = (String) entity.getProperty("user-nickname");
+    return nickname;
   }
 }
