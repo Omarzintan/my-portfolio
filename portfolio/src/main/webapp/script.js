@@ -110,16 +110,21 @@ function getUserLoginStatus() {
     var loginUrl = responseList[1];
     var logoutUrl = responseList[2];
     var userEmail = responseList[3];
+    var userNickname = responseList[4];
     const commentsDivElement = document.getElementById('comments');
     const loginDivElement = document.getElementById('login');
     const loginLinkElement = document.createElement('a');
     const logoutLinkElement = document.createElement('a');
+    const changeNicknameElement = document.createElement('a');
     loginLinkElement.innerText = 'Login';
     logoutLinkElement.innerText = 'Logout';
+    changeNicknameElement.innerText = 'Change your Nickname here';
     loginLinkElement.href=loginUrl;
     logoutLinkElement.href = logoutUrl;
+    changeNicknameElement.href = "/user-nickname";
     loginLinkElement.className = 'external-links';
     logoutLinkElement.className = 'external-links';
+    changeNicknameElement.className = 'external-links';
 
     if (loginStatus == '0') {
       commentsDivElement.style.display = 'none';
@@ -127,8 +132,11 @@ function getUserLoginStatus() {
     }
     else { 
       textElement = document.createElement('p');
-      textElement.innerHTML = 'Hey '+userEmail+', you can comment below';
+      breakElement = document.createElement('br');
+      textElement.innerHTML = 'Hey '+userNickname+', you can comment below';
       loginDivElement.appendChild(textElement);
+      loginDivElement.appendChild(changeNicknameElement);
+      loginDivElement.appendChild(breakElement);
       loginDivElement.appendChild(logoutLinkElement);
       commentCollector() }
     });   
