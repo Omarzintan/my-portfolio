@@ -175,7 +175,9 @@ function createComment(comment) {
 
 /** Creates map centered on Ghana and adds to map.html */
 function createMap() {
+  var ghana = {lat: 7.946, lng: -1};
   const map = new google.maps.Map(
     document.getElementById('map'),
-    {center: {lat: 7.946, lng: 0}, zoom: 4});
+    {center: ghana, zoom: 4});
+  var marker = new google.maps.Marker({position: ghana, map: map});  
 }
