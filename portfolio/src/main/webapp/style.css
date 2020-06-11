@@ -22,6 +22,7 @@
 
 #map {
   border: thin solid black;
+  justify-content: center;
   height: 500px;
   width: 500px;
 }
