@@ -15,6 +15,7 @@
 // Global Variables
 var currentIndex = -1;
 var deleteAllEventNotAdded = true;
+
 /**
  * Adds a random greeting to the page.
  */
@@ -179,5 +180,22 @@ function createMap() {
   const map = new google.maps.Map(
     document.getElementById('map'),
     {center: ghana, zoom: 4});
-  var marker = new google.maps.Marker({position: ghana, map: map});  
+
+  const ghanaMarker = new google.maps.Marker({position: ghana, map: map}); 
+
+  var ghanaInfo = 'This is Ghana. '; 
+  ghanaInfo += 'Located in West Africa and well-known for cocoa exports. ';
+  ghanaInfo += 'I was born and raised in Tema, a port city along the coast of Ghana. ';
+  ghanaInfo += 'Tema is about a 30-minute drive (without traffic) away from the capital city Accra. ';
+  ghanaInfo += 'Ghana, once a British colony, was the first African country to gain its independence from colonizers. ';
+  ghanaInfo += 'It has a rich cultural heritage and a budding tourism industry. ';
+  ghanaInfo += '<p><a class="external-links" href="https://3news.com"> Current news in Ghana. </a></p>';
+  ghanaInfo += '<p><a class="external-links" href="https://news.google.com/covid19/map?hl=en-US&mid=/m/035dk&gl=US&ceid=US:en"> Covid 19 live map-Ghana </a></p>';
+  const ghanaInfoWindow =
+    new google.maps.InfoWindow({content: ghanaInfo});
+    ghanaInfoWindow.open(map, ghanaMarker);
+  
+  ghanaMarker.addListener('click', function() {
+    ghanaInfoWindow.open(map, ghanaMarker)
+  });
 }
