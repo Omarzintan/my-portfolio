@@ -273,4 +273,9 @@ html {
     float: none;
     display: block;
   }
+
+  #map {
+    height: 250px;
+    width: 250px;
+  }
 }
