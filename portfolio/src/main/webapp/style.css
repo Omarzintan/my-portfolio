@@ -20,6 +20,12 @@
   overflow: auto;
 }
 
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+}
+
 .content-block {
  margin: 5%;
  background-color: #013d5f;

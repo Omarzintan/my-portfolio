@@ -46,7 +46,6 @@ function addRandomFunFact() {
   fun_factContainer.innerText = fun_fact;
 }
 
-
 /* Fetches comments from server and sends them to index.html */
 function commentCollector() {
   fetch('/data')
@@ -172,4 +171,11 @@ function createComment(comment) {
   divElement.appendChild(deleteButtonElement);
   divElement.className = 'comment-box';
   return divElement;
+}
+
+/** Creates map centered on Ghana and adds to map.html */
+function createMap() {
+  const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: {lat: 7.946, lng: 0}, zoom: 4});
 }
