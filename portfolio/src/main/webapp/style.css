@@ -20,6 +20,13 @@
   overflow: auto;
 }
 
+#map {
+  border: thin solid black;
+  justify-content: center;
+  height: 500px;
+  width: 500px;
+}
+
 .content-block {
  margin: 5%;
  background-color: #013d5f;
@@ -266,5 +273,10 @@ html {
     margin:auto;
     float: none;
     display: block;
+  }
+
+  #map {
+    height: 250px;
+    width: 250px;
   }
 }

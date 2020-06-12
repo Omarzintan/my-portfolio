@@ -15,6 +15,7 @@
 // Global Variables
 var currentIndex = -1;
 var deleteAllEventNotAdded = true;
+
 /**
  * Adds a random greeting to the page.
  */
@@ -45,7 +46,6 @@ function addRandomFunFact() {
   const fun_factContainer = document.getElementById('fun-fact-container');
   fun_factContainer.innerText = fun_fact;
 }
-
 
 /* Fetches comments from server and sends them to index.html */
 function commentCollector() {
@@ -109,17 +109,21 @@ function getUserLoginStatus() {
     var loginStatus = responseList[0];
     var loginUrl = responseList[1];
     var logoutUrl = responseList[2];
-    var userEmail = responseList[3];
+    var userNickname = responseList[3];
     const commentsDivElement = document.getElementById('comments');
     const loginDivElement = document.getElementById('login');
     const loginLinkElement = document.createElement('a');
     const logoutLinkElement = document.createElement('a');
+    const changeNicknameElement = document.createElement('a');
     loginLinkElement.innerText = 'Login';
     logoutLinkElement.innerText = 'Logout';
+    changeNicknameElement.innerText = 'Change your Nickname here';
     loginLinkElement.href=loginUrl;
     logoutLinkElement.href = logoutUrl;
+    changeNicknameElement.href = "/user-nickname";
     loginLinkElement.className = 'external-links';
     logoutLinkElement.className = 'external-links';
+    changeNicknameElement.className = 'external-links';
 
     if (loginStatus == '0') {
       commentsDivElement.style.display = 'none';
@@ -127,8 +131,11 @@ function getUserLoginStatus() {
     }
     else { 
       textElement = document.createElement('p');
-      textElement.innerHTML = 'Hey '+userEmail+', you can comment below';
+      breakElement = document.createElement('br');
+      textElement.innerHTML = 'Hey '+userNickname+', you can comment below';
       loginDivElement.appendChild(textElement);
+      loginDivElement.appendChild(changeNicknameElement);
+      loginDivElement.appendChild(breakElement);
       loginDivElement.appendChild(logoutLinkElement);
       commentCollector() }
     });   
@@ -165,4 +172,30 @@ function createComment(comment) {
   divElement.appendChild(deleteButtonElement);
   divElement.className = 'comment-box';
   return divElement;
+}
+
+/** Creates map centered on Ghana and adds to map.html */
+function createMap() {
+  var ghana = {lat: 7.946, lng: -1};
+  const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: ghana, zoom: 4});
+
+  const ghanaMarker = new google.maps.Marker({position: ghana, map: map}); 
+
+  var ghanaInfo = 'This is Ghana. '; 
+  ghanaInfo += 'Located in West Africa and well-known for cocoa exports. ';
+  ghanaInfo += 'I was born and raised in Tema, a port city along the coast of Ghana. ';
+  ghanaInfo += 'Tema is about a 30-minute drive (without traffic) away from the capital city Accra. ';
+  ghanaInfo += 'Ghana, once a British colony, was the first African country to gain its independence from colonizers. ';
+  ghanaInfo += 'It has a rich cultural heritage and a budding tourism industry. ';
+  ghanaInfo += '<p><a class="external-links" href="https://3news.com"> Current news in Ghana. </a></p>';
+  ghanaInfo += '<p><a class="external-links" href="https://news.google.com/covid19/map?hl=en-US&mid=/m/035dk&gl=US&ceid=US:en"> Covid 19 live map-Ghana </a></p>';
+  const ghanaInfoWindow =
+    new google.maps.InfoWindow({content: ghanaInfo});
+    ghanaInfoWindow.open(map, ghanaMarker);
+  
+  ghanaMarker.addListener('click', function() {
+    ghanaInfoWindow.open(map, ghanaMarker)
+  });
 }

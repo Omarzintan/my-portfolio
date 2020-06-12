@@ -42,10 +42,7 @@ public class DataServlet extends HttpServlet {
   private static final String ENTITY_TIMESTAMP = "timestamp";
   private static final String ENTITY_TEXT = "text";
   private static final String ENTITY_USERNAME = "username";
-  private static final String ENTITY_EMAIL = "userEmail";
-  private static final String USERNAMEID = "user-name";
   private static final String USERCOMMENTID = "user-comment";
-  private static final String USEREMAILID = "user-email";
 
   // Responsible for listing comments  
   @Override
@@ -61,9 +58,8 @@ public class DataServlet extends HttpServlet {
       String username = (String) entity.getProperty(ENTITY_USERNAME);
       String text = (String) entity.getProperty(ENTITY_TEXT);
       long timestamp = (long) entity.getProperty(ENTITY_TIMESTAMP);
-      String userEmail = (String) entity.getProperty(ENTITY_EMAIL);
 
-      Comment comment = new Comment(id, username, text, timestamp, userEmail);
+      Comment comment = new Comment(id, username, text, timestamp);
       comments.add(comment);
     }
 
@@ -76,16 +72,21 @@ public class DataServlet extends HttpServlet {
   /** POST method for getting user comments from homepage and storing them */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    String userId = userService.getCurrentUser().getUserId();
+    String userName = getUserNickname(userId);
     String userComment = getUserInfo(request, USERCOMMENTID);
-    String userName = getUserInfo(request, USERNAMEID);
-    String userEmail = getUserInfo(request, USEREMAILID);
     long timestamp = System.currentTimeMillis();
+    
+    if (userName == null) {
+      response.sendRedirect("/user-nickname");
+      return;
+    }
 
     Entity commentEntity = new Entity(ENTITY_KEY);
     commentEntity.setProperty(ENTITY_USERNAME, userName);
     commentEntity.setProperty(ENTITY_TEXT, userComment);
     commentEntity.setProperty(ENTITY_TIMESTAMP, timestamp);
-    commentEntity.setProperty(ENTITY_EMAIL, userEmail);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
     
@@ -94,15 +95,28 @@ public class DataServlet extends HttpServlet {
 
   /** returns user information based on what propertyId given */
   private String getUserInfo(HttpServletRequest request, String propertyId) {
-    if ( propertyId==USEREMAILID ){
-        UserService userService = UserServiceFactory.getUserService();
-        return userService.getCurrentUser().getEmail();
-    }
     String property = request.getParameter(propertyId);
     if (property.isEmpty()) {
       System.err.println("Input box empty! Please ensure you type in your username and comment");
       return "error";
     }
     return property;
+  }
+
+  /**
+  * Returns the nickname of the user with id, or null if the user has not set a nickname.
+  */
+  private String getUserNickname(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return null;
+    }
+    String nickname = (String) entity.getProperty("user-nickname");
+    return nickname;
   }
 }
