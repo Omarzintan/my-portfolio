@@ -15,9 +15,43 @@
 package com.google.sps;
 
 import java.util.Collection;
+import java.util.ArrayList;
 
 public final class FindMeetingQuery {
+  TimeRange wholeDay = TimeRange.WHOLE_DAY;
+  int startDay = TimeRange.START_OF_DAY;
+  int endDay = TimeRange.END_OF_DAY;
+
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    // take care of No attendees
+    Collection<String> attendees = request.getAttendees();
+    Collection<TimeRange> setOfTimeRanges = new ArrayList<TimeRange>();
+
+    if (attendees.isEmpty()) {
+      setOfTimeRanges.add(wholeDay);
+      return setOfTimeRanges;
+    }
+    // take care of requests too long
+    long requestDuration = request.getDuration();
+    if (requestDuration > wholeDay.duration()) { 
+      return setOfTimeRanges;
+    }
+    //split day into two options
+    Collection<TimeRange> tempTimeRanges = new ArrayList<TimeRange>();
+    for (Event e : events) {
+      TimeRange t = e.getWhen();
+      tempTimeRanges.addAll(eventSplit(t));
+    }
+    Collection.sort(tempTimeRanges, TimeRange.ORDER_BY_START;
+    return setOfTimeRanges;
+  }
+
+  private Collection<TimeRange> eventSplit(TimeRange timeRange) {
+    Collection<TimeRange> setOfTimeRanges = new ArrayList<TimeRange>();
+    TimeRange beforeEvent = TimeRange.fromStartEnd(startDay, timeRange.start(), false); 
+    TimeRange afterEvent = TimeRange.fromStartEnd(timeRange.end(), endDay, true);
+    setOfTimeRanges.add(beforeEvent);
+    setOfTimeRanges.add(afterEvent);
+    return setOfTimeRanges;
   }
 }
