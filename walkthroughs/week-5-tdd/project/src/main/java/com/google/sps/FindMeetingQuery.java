@@ -189,7 +189,7 @@ public final class FindMeetingQuery {
     return nested;
   }
 
-  /** Deals with nested events */
+  /** Deals with nested events (also takes care of double booked people) */
   private Collection<TimeRange> dealWithNestedEvents(List<TimeRange> listOfTimeRanges) {
     Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
     // order list by start
@@ -202,12 +202,19 @@ public final class FindMeetingQuery {
     for (int i = 1; i < listOfTimeRanges.size(); i++) {
       TimeRange previousEvent = listOfTimeRanges.get(i-1);
       TimeRange currentEvent = listOfTimeRanges.get(i);
-      //TODO: change this long if to a helper function that checks the condition
-      if ((currentEvent.start() > previousEvent.start() && currentEvent.end() < previousEvent.end()) || (currentEvent.start() == previousEvent.start() && currentEvent.end() < previousEvent.end()) || (currentEvent.start() > previousEvent.start() && currentEvent.end() == previousEvent.end())) {
+      if (isNested(currentEvent, previousEvent)) {
         TimeRange afterPreviousEvent = eventSplit(previousEvent).get(1);
         possibleMeetingTimes.add(afterPreviousEvent);
       }
     }
     return possibleMeetingTimes;
+  }
+
+  /** Checks if two events are nested */
+  private boolean isNested(TimeRange currentEvent, TimeRange previousEvent) {
+    if ((currentEvent.start() > previousEvent.start() && currentEvent.end() < previousEvent.end()) || (currentEvent.start() == previousEvent.start() && currentEvent.end() < previousEvent.end()) || (currentEvent.start() > previousEvent.start() && currentEvent.end() == previousEvent.end())) {
+      return true;
+    }
+    return false;
   }
 }
