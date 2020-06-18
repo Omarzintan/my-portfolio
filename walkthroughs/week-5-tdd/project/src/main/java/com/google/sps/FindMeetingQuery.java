@@ -24,6 +24,8 @@ public final class FindMeetingQuery {
   TimeRange wholeDay = TimeRange.WHOLE_DAY;
   int startDay = TimeRange.START_OF_DAY;
   int endDay = TimeRange.END_OF_DAY;
+  String OVERLAP_CONDITION = "overlaps";
+  String NESTED_CONDITION = "nested";
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     // take care of No attendees
@@ -49,13 +51,13 @@ public final class FindMeetingQuery {
     }
     
     //checking for nested events
-    if (nestedEventsExist(events, attendees)) {
-      return dealWithNestedEvents(tempTimeRanges);
+    if (conditionExists(events, attendees, NESTED_CONDITION)) {
+      return dealWithCondition(tempTimeRanges, NESTED_CONDITION);
     }
 
     
-    if (overlapExits(events, attendees)){
-      return dealWithOverlaps(tempTimeRanges);
+    if (conditionExists(events, attendees, OVERLAP_CONDITION)){
+      return dealWithCondition(tempTimeRanges, OVERLAP_CONDITION);
     }
     Collections.sort(tempTimeRanges, TimeRange.ORDER_BY_END);
     possibleMeetingTimes = considerEveryAttendee(tempTimeRanges);
@@ -112,8 +114,8 @@ public final class FindMeetingQuery {
     return results;
   } 
 
-  /** Checks for any overlapping events */
-  private boolean overlapExits(Collection<Event> events, Collection<String> attendees) {
+  /** Checks if a condition exists given a string describing the condition */
+  private boolean conditionExists(Collection<Event> events, Collection<String> attendees, String condition) {
     List<TimeRange> relevantTimeRanges = new ArrayList<TimeRange>();
     for (Event e : events) {
       for (String attendee : attendees) {
@@ -123,21 +125,35 @@ public final class FindMeetingQuery {
       }
     }
     Collections.sort(relevantTimeRanges, TimeRange.ORDER_BY_START);
-    boolean overlap = false;
-    for (int i = 0; i < relevantTimeRanges.size(); i++) {
-      TimeRange currentTimeRange = relevantTimeRanges.get(i);
-      TimeRange nextTimeRange = (i+1) < relevantTimeRanges.size() ? relevantTimeRanges.get(i+1) : null;
-      if (nextTimeRange != null && currentTimeRange.overlaps(nextTimeRange)) {
-        overlap = true;
-        System.out.println("current event: " + currentTimeRange +" Next event: "+ nextTimeRange);
-        return overlap;
-      }
-    }
-    return overlap;
-  } 
+    boolean isCondition = false;
 
-  /** Deals with overlapping events */
-  private Collection<TimeRange> dealWithOverlaps(List<TimeRange> listOfTimeRanges){
+    if (condition == OVERLAP_CONDITION) {
+      for (int i = 0; i < relevantTimeRanges.size(); i++) {
+        TimeRange currentTimeRange = relevantTimeRanges.get(i);
+        TimeRange nextTimeRange = (i+1) < relevantTimeRanges.size() ? relevantTimeRanges.get(i+1) : null;
+        if (nextTimeRange != null && currentTimeRange.overlaps(nextTimeRange)) {
+          isCondition = true;
+          System.out.println("current event: " + currentTimeRange +" Next event: "+ nextTimeRange);
+          return isCondition;
+        }
+      }
+      return isCondition;
+    }
+    else if (condition == NESTED_CONDITION) {
+      for (int i = 0; i < relevantTimeRanges.size(); i++) {
+        TimeRange currentTimeRange = relevantTimeRanges.get(i);
+        TimeRange nextTimeRange = (i+1) < relevantTimeRanges.size() ? relevantTimeRanges.get(i+1) : null;
+        if (nextTimeRange != null) {
+          isCondition = isNested(nextTimeRange, currentTimeRange);
+        }
+      }
+      return isCondition;
+    }
+    return isCondition;
+  }
+
+  /** Deals with a condition given a string that describes the condition */
+  private Collection<TimeRange> dealWithCondition(List<TimeRange> listOfTimeRanges, String condition) {
     Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
     // order list by start
     Collections.sort(listOfTimeRanges, TimeRange.ORDER_BY_START);
@@ -146,75 +162,44 @@ public final class FindMeetingQuery {
     // split earliest event to get its before
     TimeRange beforeFirstEvent = eventSplit(earliestEvent).get(0);
     possibleMeetingTimes.add(beforeFirstEvent);
-    for (int i = 1; i < listOfTimeRanges.size(); i++) {
-      TimeRange previousEvent = listOfTimeRanges.get(i-1);
-      TimeRange currentEvent = listOfTimeRanges.get(i);
-      if (previousEvent.overlaps(currentEvent)) {
-        TimeRange afterCurrentEvent = eventSplit(currentEvent).get(1);
-        possibleMeetingTimes.add(afterCurrentEvent);
+    if (condition == OVERLAP_CONDITION) {
+      for (int i = 1; i < listOfTimeRanges.size(); i++) {
+        TimeRange previousEvent = listOfTimeRanges.get(i-1);
+        TimeRange currentEvent = listOfTimeRanges.get(i);
+        if (previousEvent.overlaps(currentEvent)) {
+          TimeRange afterCurrentEvent = eventSplit(currentEvent).get(1);
+          possibleMeetingTimes.add(afterCurrentEvent);
+        }
       }
+      return possibleMeetingTimes;
     }
-    return possibleMeetingTimes;
+    else if (condition == NESTED_CONDITION) {
+      for (int i = 1; i < listOfTimeRanges.size(); i++) {
+        TimeRange previousEvent = listOfTimeRanges.get(i-1);
+        TimeRange currentEvent = listOfTimeRanges.get(i);
+        if (isNested(currentEvent, previousEvent)) {
+          TimeRange afterPreviousEvent = eventSplit(previousEvent).get(1);
+          possibleMeetingTimes.add(afterPreviousEvent);
+        }
+      }
+      return possibleMeetingTimes;
+    }
+    return null;
   }
-
-  /** Checks for any nested events */
-  private boolean nestedEventsExist(Collection<Event> events, Collection<String> attendees) {
-    List<TimeRange> relevantTimeRanges = new ArrayList<TimeRange>();
-    for (Event e : events) {
-      for (String attendee : attendees) {
-        if (e.getAttendees().contains(attendee)) {
-          relevantTimeRanges.add(e.getWhen());
-        }
-      }
-    }
-    Collections.sort(relevantTimeRanges, TimeRange.ORDER_BY_START);
-    boolean nested = false;
-    for (int i = 0; i < relevantTimeRanges.size(); i++) {
-      TimeRange currentTimeRange = relevantTimeRanges.get(i);
-      TimeRange nextTimeRange = (i+1) < relevantTimeRanges.size() ? relevantTimeRanges.get(i+1) : null;
-      if (nextTimeRange != null) {
-        if (nextTimeRange.start() > currentTimeRange.start() && nextTimeRange.end() < currentTimeRange.end()) {
-          nested = true;
-        }
-        else if (nextTimeRange.start() == currentTimeRange.start() && nextTimeRange.end() < currentTimeRange.end()) {
-          nested = true;
-        }
-        else if (nextTimeRange.start() > currentTimeRange.start() && nextTimeRange.end() == currentTimeRange.end()) {
-          nested = true;
-        }
-        System.out.println("current event: " + currentTimeRange +" Next event: "+ nextTimeRange);
-        return nested;
-      }
-    }
-    return nested;
-  }
-
-  /** Deals with nested events (also takes care of double booked people) */
-  private Collection<TimeRange> dealWithNestedEvents(List<TimeRange> listOfTimeRanges) {
-    Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
-    // order list by start
-    Collections.sort(listOfTimeRanges, TimeRange.ORDER_BY_START);
-    // get earliest event
-    TimeRange earliestEvent = listOfTimeRanges.get(0);
-    // split earliest event to get its before and after
-    TimeRange beforeFirstEvent = eventSplit(earliestEvent).get(0);
-    possibleMeetingTimes.add(beforeFirstEvent);
-    for (int i = 1; i < listOfTimeRanges.size(); i++) {
-      TimeRange previousEvent = listOfTimeRanges.get(i-1);
-      TimeRange currentEvent = listOfTimeRanges.get(i);
-      if (isNested(currentEvent, previousEvent)) {
-        TimeRange afterPreviousEvent = eventSplit(previousEvent).get(1);
-        possibleMeetingTimes.add(afterPreviousEvent);
-      }
-    }
-    return possibleMeetingTimes;
-  }
-
+  
   /** Checks if two events are nested */
   private boolean isNested(TimeRange currentEvent, TimeRange previousEvent) {
-    if ((currentEvent.start() > previousEvent.start() && currentEvent.end() < previousEvent.end()) || (currentEvent.start() == previousEvent.start() && currentEvent.end() < previousEvent.end()) || (currentEvent.start() > previousEvent.start() && currentEvent.end() == previousEvent.end())) {
-      return true;
+    boolean nested = false;
+    if (currentEvent.start() > previousEvent.start() && currentEvent.end() < previousEvent.end()) {
+          nested = true;
     }
-    return false;
+    else if (currentEvent.start() == previousEvent.start() && currentEvent.end() < previousEvent.end()) {
+          nested = true;
+    }
+    else if (currentEvent.start() > previousEvent.start() && currentEvent.end() == previousEvent.end()) {
+        nested = true;
+    }
+    System.out.println("current event: " + previousEvent +" Next event: "+ currentEvent);
+    return nested;
   }
 }
