@@ -47,7 +47,11 @@ public final class FindMeetingQuery {
       TimeRange t = e.getWhen();
       tempTimeRanges.add(t);
     }
-
+    
+    // if (overlapExits(events, attendees));
+    System.out.println(overlapExits(events, attendees));
+    // if overlapExits(events)
+    //  call dealWithOverlaps()
     Collections.sort(tempTimeRanges, TimeRange.ORDER_BY_END);
     possibleMeetingTimes = considerEveryAttendee(tempTimeRanges);
     for (TimeRange t : possibleMeetingTimes) { setOfTimeRanges.add(t); }
@@ -79,7 +83,7 @@ public final class FindMeetingQuery {
     //take the earliest event
     TimeRange firstEvent = orderedListOfTimeRanges.get(0);
     
-    // split it into before and after
+    // split free time into before and after the event
     TimeRange beforeFirstEvent = eventSplit(firstEvent).get(0);
     TimeRange afterFirstEvent = eventSplit(firstEvent).get(1);
     
@@ -101,5 +105,34 @@ public final class FindMeetingQuery {
     results.add(nextFreeSlot);
     
     return results;
-  }  
+  } 
+
+  /** Checks for any overlapping events */
+  private boolean overlapExits(Collection<Event> events, Collection<String> attendees) {
+    List<TimeRange> relevantTimeRanges = new ArrayList<TimeRange>();
+    for (Event e : events) {
+      for (String attendee : attendees) {
+        if (e.getAttendees().contains(attendee)) {
+          relevantTimeRanges.add(e.getWhen());
+        }
+      }
+    }
+    Collections.sort(relevantTimeRanges, TimeRange.ORDER_BY_START);
+    boolean overlap = false;
+    for (int i = 0; i < relevantTimeRanges.size(); i++) {
+      TimeRange currentTimeRange = relevantTimeRanges.get(i);
+      TimeRange nextTimeRange = (i+1) < relevantTimeRanges.size() ? relevantTimeRanges.get(i+1) : null;
+      if (nextTimeRange != null && currentTimeRange.overlaps(nextTimeRange)) {
+        overlap = true;
+        System.out.println("current event: " + currentTimeRange +" Next event: "+ nextTimeRange);
+        return overlap;
+      }
+    }
+    return overlap;
+  } 
+
+  /** Deals with overlapping events */
+  private Collection<TimeRange> dealWithOverlaps(){
+    // TODO
+  }
 }
