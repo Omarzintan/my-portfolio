@@ -49,9 +49,9 @@ public final class FindMeetingQuery {
     }
     
     // if (overlapExits(events, attendees));
-    System.out.println(overlapExits(events, attendees));
-    // if overlapExits(events)
-    //  call dealWithOverlaps()
+    if (overlapExits(events, attendees)){
+      return dealWithOverlaps(tempTimeRanges);
+    }
     Collections.sort(tempTimeRanges, TimeRange.ORDER_BY_END);
     possibleMeetingTimes = considerEveryAttendee(tempTimeRanges);
     for (TimeRange t : possibleMeetingTimes) { setOfTimeRanges.add(t); }
@@ -132,7 +132,23 @@ public final class FindMeetingQuery {
   } 
 
   /** Deals with overlapping events */
-  private Collection<TimeRange> dealWithOverlaps(){
-    // TODO
+  private Collection<TimeRange> dealWithOverlaps(List<TimeRange> listOfTimeRanges){
+    Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
+    // order list by start
+    Collections.sort(listOfTimeRanges, TimeRange.ORDER_BY_START);
+    // get earliest event
+    TimeRange earliestEvent = listOfTimeRanges.get(0);
+    // split earliest event to get its before and after
+    TimeRange beforeFirstEvent = eventSplit(earliestEvent).get(0);
+    possibleMeetingTimes.add(beforeFirstEvent);
+    for (int i = 1; i < listOfTimeRanges.size(); i++) {
+      TimeRange previousEvent = listOfTimeRanges.get(i-1);
+      TimeRange currentEvent = listOfTimeRanges.get(i);
+      if (previousEvent.overlaps(currentEvent)) {
+        TimeRange afterCurrentEvent = eventSplit(currentEvent).get(1);
+        possibleMeetingTimes.add(afterCurrentEvent);
+      }
+    }
+    return possibleMeetingTimes;
   }
 }
