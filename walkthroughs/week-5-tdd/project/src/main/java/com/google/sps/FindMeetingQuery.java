@@ -29,8 +29,10 @@ public final class FindMeetingQuery {
   String NO_SPECIAL_CONDITION = "allGood";
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    // take care of No attendees
-    Collection<String> attendees = request.getAttendees();
+    Collection<String> attendees = new ArrayList<String>();
+    attendees.addAll(request.getAttendees());
+    Collection<String> optionalAttendees = request.getOptionalAttendees();
+    Collection<Event> optionalAttendeesEvents = new ArrayList<Event>();
     long meetingDuration = request.getDuration();
     Collection<TimeRange> setOfTimeRanges = new ArrayList<TimeRange>();
     List<TimeRange> tempTimeRanges = new ArrayList<TimeRange>();
@@ -47,10 +49,15 @@ public final class FindMeetingQuery {
       return setOfTimeRanges;
     }
     
-    for (Event e : events) {
-      TimeRange t = e.getWhen();
-      tempTimeRanges.add(t);
-    }
+    // for (Event e : events) {
+    //   // TimeRange t = e.getWhen();
+    //   if (e.getAttendees().contains(optionalAttendees)) {
+    //     optionalAttendeesEvents.add(e);
+    //   }
+    //   // else {
+    //   //   tempTimeRanges.add(t);
+    //   // }
+    // }
     
     //checking for nested events
     if (conditionExists(events, attendees, NESTED_CONDITION)) {
@@ -58,7 +65,18 @@ public final class FindMeetingQuery {
     }
     //checking for overlapping events
     if (conditionExists(events, attendees, OVERLAP_CONDITION)){
-      return dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration);
+      setOfTimeRanges.addAll(dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration));
+      return setOfTimeRanges;
+    }
+    if (!(conditionExists(events, attendees, OVERLAP_CONDITION))) {
+      for (String optionalAttendee : optionalAttendees) {
+        Collection<String> updatedAttendeesList = new ArrayList<String>();
+        updatedAttendeesList.addAll(attendees);
+        updatedAttendeesList.add(optionalAttendee);
+        if (!(conditionExists(events, updatedAttendeesList, OVERLAP_CONDITION))) {
+          attendees.add(optionalAttendee);
+        }
+      }
     }
     // no conditions
     return dealWithCondition(events, attendees, NO_SPECIAL_CONDITION, meetingDuration);

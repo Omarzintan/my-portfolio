@@ -301,7 +301,8 @@ public final class FindMeetingQueryTest {
         Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
             TimeRange.fromStartEnd(TIME_0830AM, TIME_0900AM, false),
             TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
-
+    System.out.println(request.getAttendees());
+    System.out.println(actual);
     Assert.assertEquals(expected, actual);
   }
 
@@ -337,7 +338,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void ignoresOptionalAttendeeSinceNotEnoughRoom() {
+  public void ignoresOptionalAttendeeIfNotEnoughRoom() {
     // Have one mandatory attendee and one optional attendee, but make it so that there is not enough 
     // room for both to attend the meeting. Ignore the optional attendee
     //
