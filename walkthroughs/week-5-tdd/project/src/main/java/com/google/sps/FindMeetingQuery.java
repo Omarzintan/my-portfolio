@@ -27,18 +27,17 @@ public final class FindMeetingQuery {
   String OVERLAP_CONDITION = "overlaps";
   String NESTED_CONDITION = "nested";
   String NO_SPECIAL_CONDITION = "allGood";
+  Collection<String> optionalAttendees = new ArrayList<String>();
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Collection<String> attendees = new ArrayList<String>();
     attendees.addAll(request.getAttendees());
-    Collection<String> optionalAttendees = request.getOptionalAttendees();
-    Collection<Event> optionalAttendeesEvents = new ArrayList<Event>();
+    optionalAttendees.addAll(request.getOptionalAttendees());
     long meetingDuration = request.getDuration();
     Collection<TimeRange> setOfTimeRanges = new ArrayList<TimeRange>();
-    List<TimeRange> tempTimeRanges = new ArrayList<TimeRange>();
-    Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
+    int numberOfOptionalAttendeesAdded = 0;
 
-    if (attendees.isEmpty()) {
+    if (attendees.isEmpty() && optionalAttendees.isEmpty()) {
       setOfTimeRanges.add(wholeDay);
       return setOfTimeRanges;
     }
@@ -49,37 +48,40 @@ public final class FindMeetingQuery {
       return setOfTimeRanges;
     }
     
-    // for (Event e : events) {
-    //   // TimeRange t = e.getWhen();
-    //   if (e.getAttendees().contains(optionalAttendees)) {
-    //     optionalAttendeesEvents.add(e);
-    //   }
-    //   // else {
-    //   //   tempTimeRanges.add(t);
-    //   // }
-    // }
-    
     //checking for nested events
     if (conditionExists(events, attendees, NESTED_CONDITION)) {
-      return dealWithCondition(events, attendees, NESTED_CONDITION, meetingDuration);
+      return dealWithCondition(events, attendees, NESTED_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
     }
-    //checking for overlapping events
+    //checking for overlapping events among mandatory attendees
     if (conditionExists(events, attendees, OVERLAP_CONDITION)){
-      setOfTimeRanges.addAll(dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration));
+      setOfTimeRanges.addAll(dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded));
       return setOfTimeRanges;
     }
-    if (!(conditionExists(events, attendees, OVERLAP_CONDITION))) {
-      for (String optionalAttendee : optionalAttendees) {
-        Collection<String> updatedAttendeesList = new ArrayList<String>();
-        updatedAttendeesList.addAll(attendees);
-        updatedAttendeesList.add(optionalAttendee);
-        if (!(conditionExists(events, updatedAttendeesList, OVERLAP_CONDITION))) {
-          attendees.add(optionalAttendee);
-        }
+
+    // checking for overlapping events with optional attendees
+    if (attendees.isEmpty()) {
+      boolean optionalAttendeesOverlap = false;
+      attendees.addAll(optionalAttendees);
+      numberOfOptionalAttendeesAdded = attendees.size();
+      if (conditionExists(events, attendees, NESTED_CONDITION)) {
+        return dealWithCondition(events, attendees, NESTED_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
+      }
+      if ((conditionExists(events, attendees, OVERLAP_CONDITION))) {
+        return dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
+      }
+    }
+    
+    for (String optionalAttendee : optionalAttendees) {
+      Collection<String> updatedAttendeesList = new ArrayList<String>();
+      updatedAttendeesList.addAll(attendees);
+      updatedAttendeesList.add(optionalAttendee);
+      if (!(conditionExists(events, updatedAttendeesList, OVERLAP_CONDITION))) {
+        attendees.add(optionalAttendee);
+        numberOfOptionalAttendeesAdded++;
       }
     }
     // no conditions
-    return dealWithCondition(events, attendees, NO_SPECIAL_CONDITION, meetingDuration);
+    return dealWithCondition(events, attendees, NO_SPECIAL_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
   }
 
 /** Splits day into two "free-to-meet" options before and after an event */
@@ -93,7 +95,7 @@ public final class FindMeetingQuery {
   }
 
   /** Creates list of possible free times for users with different events given an ordered list of time ranges */
-  private Collection<TimeRange> considerEveryAttendee(List<TimeRange> orderedListOfTimeRanges, long meetingDuration) {
+  private Collection<TimeRange> considerEveryAttendee(List<TimeRange> orderedListOfTimeRanges, long meetingDuration, int numberOfOptionalAttendeesAdded, List<TimeRange>unorderedListOfTimeRanges) {
     Collection<TimeRange> collectionOfFreeTimes = new ArrayList<TimeRange>();
 
     // take care of corner case where there is only one event
@@ -114,7 +116,15 @@ public final class FindMeetingQuery {
     //let first free time be before the first event;
     if (enoughRoom(beforeFirstEvent, meetingDuration)) {
         collectionOfFreeTimes.add(beforeFirstEvent);
-        }
+    }
+    else if (numberOfOptionalAttendeesAdded > 0) {
+      while (numberOfOptionalAttendeesAdded != 0) {
+        unorderedListOfTimeRanges.remove(unorderedListOfTimeRanges.size()-1);
+        numberOfOptionalAttendeesAdded--;
+      } 
+      Collections.sort(unorderedListOfTimeRanges, TimeRange.ORDER_BY_END);
+      orderedListOfTimeRanges = unorderedListOfTimeRanges;
+    }
 
     //loop starting from next event
     for (int i = 1; i < orderedListOfTimeRanges.size(); i++) {
@@ -133,7 +143,6 @@ public final class FindMeetingQuery {
     if (enoughRoom(nextFreeSlot, meetingDuration)) {
           collectionOfFreeTimes.add(nextFreeSlot);
     }
-    
     return collectionOfFreeTimes;
   } 
 
@@ -178,8 +187,9 @@ public final class FindMeetingQuery {
   }
 
   /** Deals with a condition given a string that describes the condition */
-  private Collection<TimeRange> dealWithCondition(Collection<Event> events, Collection<String> attendees, String condition, long meetingDuration) {
+  private Collection<TimeRange> dealWithCondition(Collection<Event> events, Collection<String> attendees, String condition, long meetingDuration, int numberOfOptionalAttendeesAdded) {
     List<TimeRange> relevantTimeRanges = new ArrayList<TimeRange>();
+    List<TimeRange> unorderedListOfTimeRanges = new ArrayList<TimeRange>();
     Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
     // get list of relevant time ranges
     for (Event e : events) {
@@ -193,7 +203,7 @@ public final class FindMeetingQuery {
       possibleMeetingTimes.add(wholeDay);
       return possibleMeetingTimes;
     }
-    
+    unorderedListOfTimeRanges.addAll(relevantTimeRanges);
     Collections.sort(relevantTimeRanges, TimeRange.ORDER_BY_START);
     TimeRange earliestEvent = relevantTimeRanges.get(0);
     TimeRange beforeFirstEvent = eventSplit(earliestEvent).get(0);
@@ -228,7 +238,7 @@ public final class FindMeetingQuery {
     }
     else if (condition == NO_SPECIAL_CONDITION) {
       Collections.sort(relevantTimeRanges, TimeRange.ORDER_BY_END);
-      return removePointEvents(considerEveryAttendee(relevantTimeRanges, meetingDuration));
+      return removePointEvents(considerEveryAttendee(relevantTimeRanges, meetingDuration, numberOfOptionalAttendeesAdded, unorderedListOfTimeRanges));
     }
     return null;
   }
