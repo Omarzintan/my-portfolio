@@ -42,23 +42,23 @@ public final class FindMeetingQuery {
       return setOfTimeRanges;
     }
 
-    // take care of requests too long
+    // Take care of requests too long.
     long requestDuration = request.getDuration();
     if (requestDuration > wholeDay.duration()) { 
       return setOfTimeRanges;
     }
     
-    //checking for nested events
+    // Checking for nested events.
     if (conditionExists(events, attendees, NESTED_CONDITION)) {
       return dealWithCondition(events, attendees, NESTED_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
     }
-    //checking for overlapping events among mandatory attendees
+    // Checking for overlapping events among mandatory attendees.
     if (conditionExists(events, attendees, OVERLAP_CONDITION)){
       setOfTimeRanges.addAll(dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded));
       return setOfTimeRanges;
     }
 
-    // checking for overlapping events with optional attendees
+    // Checking for overlapping events with optional attendees.
     if (attendees.isEmpty()) {
       boolean optionalAttendeesOverlap = false;
       attendees.addAll(optionalAttendees);
@@ -80,7 +80,7 @@ public final class FindMeetingQuery {
         numberOfOptionalAttendeesAdded++;
       }
     }
-    // no conditions
+    // No conditions.
     return dealWithCondition(events, attendees, NO_SPECIAL_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
   }
 
@@ -98,7 +98,7 @@ public final class FindMeetingQuery {
   private Collection<TimeRange> considerEveryAttendee(List<TimeRange> orderedListOfTimeRanges, long meetingDuration, int numberOfOptionalAttendeesAdded, List<TimeRange>unorderedListOfTimeRanges) {
     Collection<TimeRange> collectionOfFreeTimes = new ArrayList<TimeRange>();
 
-    // take care of corner case where there is only one event
+    // Take care of corner case where there is only one event.
     if (orderedListOfTimeRanges.size() == 1) {
       TimeRange onlyEvent = orderedListOfTimeRanges.get(0);
       collectionOfFreeTimes.add(eventSplit(onlyEvent).get(0));
@@ -106,14 +106,14 @@ public final class FindMeetingQuery {
       return collectionOfFreeTimes;
     }
 
-    //take the earliest event
+    // Take the earliest event.
     TimeRange firstEvent = orderedListOfTimeRanges.get(0);
     
-    // split free time into before and after the event
+    // Split free time into before and after the event.
     TimeRange beforeFirstEvent = eventSplit(firstEvent).get(0);
     TimeRange afterFirstEvent = eventSplit(firstEvent).get(1);
     
-    //let first free time be before the first event;
+    // Let first free time be before the first event.
     if (enoughRoom(beforeFirstEvent, meetingDuration)) {
         collectionOfFreeTimes.add(beforeFirstEvent);
     }
@@ -126,7 +126,7 @@ public final class FindMeetingQuery {
       orderedListOfTimeRanges = unorderedListOfTimeRanges;
     }
 
-    //loop starting from next event
+    // Loop starting from next event.
     for (int i = 1; i < orderedListOfTimeRanges.size(); i++) {
       TimeRange currentEvent = orderedListOfTimeRanges.get(i);
       if (afterFirstEvent.overlaps(currentEvent)) {
@@ -138,7 +138,7 @@ public final class FindMeetingQuery {
       }
     }
     
-    //for remaining freeSlot that has no clashes
+    // For remaining freeSlot that has no clashes.
     TimeRange nextFreeSlot = afterFirstEvent;
     if (enoughRoom(nextFreeSlot, meetingDuration)) {
           collectionOfFreeTimes.add(nextFreeSlot);
@@ -191,7 +191,7 @@ public final class FindMeetingQuery {
     List<TimeRange> relevantTimeRanges = new ArrayList<TimeRange>();
     List<TimeRange> unorderedListOfTimeRanges = new ArrayList<TimeRange>();
     Collection<TimeRange> possibleMeetingTimes = new ArrayList<TimeRange>();
-    // get list of relevant time ranges
+    // Get list of relevant time ranges.
     for (Event e : events) {
       for (String attendee : attendees) {
         if (e.getAttendees().contains(attendee)) {
