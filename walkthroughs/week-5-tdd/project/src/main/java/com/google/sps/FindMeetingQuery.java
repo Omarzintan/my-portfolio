@@ -54,8 +54,7 @@ public final class FindMeetingQuery {
     }
     // Checking for overlapping events among mandatory attendees.
     if (conditionExists(events, attendees, OVERLAP_CONDITION)){
-      setOfTimeRanges.addAll(dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded));
-      return setOfTimeRanges;
+      return dealWithCondition(events, attendees, OVERLAP_CONDITION, meetingDuration, numberOfOptionalAttendeesAdded);
     }
 
     // Checking for overlapping events with optional attendees.
