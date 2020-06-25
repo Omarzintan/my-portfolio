@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class FindMeetingQuery {
-  TimeRange wholeDay = TimeRange.WHOLE_DAY;
-  int startDay = TimeRange.START_OF_DAY;
-  int endDay = TimeRange.END_OF_DAY;
-  String OVERLAP_CONDITION = "overlaps";
-  String NESTED_CONDITION = "nested";
-  String NO_SPECIAL_CONDITION = "allGood";
-  Collection<String> optionalAttendees = new ArrayList<String>();
+  private static final TimeRange wholeDay = TimeRange.WHOLE_DAY;
+  private static final int startDay = TimeRange.START_OF_DAY;
+  private static final int endDay = TimeRange.END_OF_DAY;
+  private static final String OVERLAP_CONDITION = "overlaps";
+  private static final String NESTED_CONDITION = "nested";
+  private static final String NO_SPECIAL_CONDITION = "allGood";
+  private static final Collection<String> optionalAttendees = new ArrayList<String>();
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Collection<String> attendees = new ArrayList<String>();
